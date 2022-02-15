@@ -1,6 +1,11 @@
 package cart
 
-import "gorm.io/gorm"
+import (
+	"Back-End-Ecommers/entities/product"
+	"os/user"
+
+	"gorm.io/gorm"
+)
 
 type Cart struct {
 	gorm.Model
@@ -8,4 +13,6 @@ type Cart struct {
 	Product_id  int
 	Qty         int
 	Total_price int
+	User        user.User
+	Product     product.Product
 }
