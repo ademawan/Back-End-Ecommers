@@ -1153,9 +1153,25 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "name": {
-                          "type": "string",
-                          "example": "categories 1"
+                        "cart_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "product_id": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_price": {
+                          "type": "integer",
+                          "example": 40000
                         }
                       }
                     }
@@ -1173,7 +1189,7 @@
         }
       },
       "get": {
-        "summary": "Get All Categories",
+        "summary": "Get All Carts Detail",
         "tags": [
           "Cart"
         ],
@@ -1198,22 +1214,37 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "id": {
+                          "cart_id": {
                             "type": "integer"
                           },
-                          "name": {
-                            "type": "string"
+                          "product_id": {
+                            "type": "integer"
+                          },
+                          "user_id": {
+                            "type": "integer"
+                          },
+                          "qty": {
+                            "type": "integer"
+                          },
+                          "total_price": {
+                            "type": "integer"
                           }
                         }
                       },
                       "example": [
                         {
-                          "id": 1,
-                          "name": "marvel"
+                          "cart_id": 1,
+                          "product_id": 5,
+                          "user_id": 1,
+                          "qty":2,
+                          "total_price": 40000
                         },
                         {
-                          "id": 2,
-                          "name": "DC"
+                          "cart_id": 2,
+                          "product_id": 2,
+                          "user_id": 1,
+                          "qty":3,
+                          "total_price": 65000
                         }
                       ]
                     }
@@ -1233,7 +1264,7 @@
     },
     "/carts/{id}":{
       "get": {
-        "summary": "Get a Categories",
+        "summary": "Get a Cart",
         "tags": [
           "Cart"
         ],
@@ -1256,13 +1287,25 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "id":{
+                        "cart_id": {
                           "type": "integer",
-                          "example":1
+                          "example": 1
                         },
-                        "name": {
-                          "type": "string",
-                          "example": "marvel"
+                        "product_id": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_price": {
+                          "type": "integer",
+                          "example": 40000
                         }
                       }
                     }
@@ -1304,7 +1347,7 @@
                 "$ref": "#/components/schemas/TestListInput"
               },
               "example": {
-                "name": "new name categories"
+                "qty": 10
               }
             }
           }
@@ -1328,13 +1371,25 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "id":{
+                        "cart_id": {
                           "type": "integer",
-                          "example":1
+                          "example": 1
                         },
-                        "name": {
-                          "type": "string",
-                          "example": "new name category"
+                        "product_id": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "total_price": {
+                          "type": "integer",
+                          "example": 100000
                         }
                       }
                     }
@@ -1352,7 +1407,7 @@
         }
       },
       "delete": {
-        "summary": "Delete Category",
+        "summary": "Delete Cart",
         "tags": [
           "Cart"
         ],
@@ -1379,6 +1434,483 @@
                   "code": 200,
                   "message": "Success to delete Data",
                   "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/paymentmethods":{
+      "post": {
+        "summary": "Register Payment Methods",
+        "tags": [
+          "Payments"
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Input Parameters to Register",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",           
+                "items":{
+                  "type": "object",
+                  "properties": {
+                    "product_id":{
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "qty":{
+                      "type": "integer",
+                      "example": 2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Create Payment Methods"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "cart_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "product_id": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_price": {
+                          "type": "integer",
+                          "example": 40000
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get All Payment Methods",
+        "tags": [
+          "Payments"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Get Payment Methods"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "cart_id": {
+                            "type": "integer"
+                          },
+                          "product_id": {
+                            "type": "integer"
+                          },
+                          "user_id": {
+                            "type": "integer"
+                          },
+                          "qty": {
+                            "type": "integer"
+                          },
+                          "total_price": {
+                            "type": "integer"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "cart_id": 1,
+                          "product_id": 5,
+                          "user_id": 1,
+                          "qty":2,
+                          "total_price": 40000
+                        },
+                        {
+                          "cart_id": 2,
+                          "product_id": 2,
+                          "user_id": 1,
+                          "qty":3,
+                          "total_price": 65000
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/paymentmethods/{id}":{
+      "get": {
+        "summary": "Get a Payment Methods",
+        "tags": [
+          "Payments"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Get Payment Method"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "cart_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "product_id": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "total_price": {
+                          "type": "integer",
+                          "example": 40000
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Payment Methods",
+        "tags": [
+          "Payments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/TestListInput"
+              },
+              "example": {
+                "qty": 10
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Update Payment Methods"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "cart_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "product_id": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "total_price": {
+                          "type": "integer",
+                          "example": 100000
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Payment Methods",
+        "tags": [
+          "Payments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessSingleResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Success to delete Data",
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/orders":{
+      "post": {
+        "summary": "Register Orders",
+        "tags": [
+          "Orders"
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Input Parameters to Register",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",           
+                "items":{
+                  "type": "object",
+                  "properties": {
+                    "user_id":{
+                      "type": "integer",
+                      "example":1
+                    },
+                    "payment_methods_id":{
+                      "type": "integer",
+                      "example":1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Create Cart"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "order_id": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get Detail Orders",
+        "tags": [
+          "Orders"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Get All Cart"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "cart_id": {
+                            "type": "integer"
+                          },
+                          "product_id": {
+                            "type": "integer"
+                          },
+                          "user_id": {
+                            "type": "integer"
+                          },
+                          "qty": {
+                            "type": "integer"
+                          },
+                          "total_price": {
+                            "type": "integer"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "order_id":1
+                        },
+                        {
+                          "order_id":2
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             }
