@@ -2,7 +2,7 @@
   "openapi": "3.0.2",
   "info": {
     "title": "E-Commerce ALTA - Project 1 (Group : 2)",
-    "description": "Dokumentasi API ToDoList untuk kelas ICP",
+    "description": "Open API Template",
     "contact": {
       "name": "kelompok 2",
       "email": "kelompok2@aja.com"
@@ -149,10 +149,6 @@
                           "name": "test",
                           "email": "test@test.com",
                           "address": {
-                            "street": "jalanjalan",
-                            "city": "surabaya",
-                            "region": "indonesia",
-                            "postal code": 123456
                           }
                         },
                         {
@@ -160,10 +156,6 @@
                           "name": "test2",
                           "email": "test2@test.com",
                           "address": {
-                            "street": "jalanjalanaja",
-                            "city": "bogor",
-                            "region": "indonesia",
-                            "postal code": 123456
                           }
                         }
                       ]                 
@@ -211,22 +203,6 @@
                   "address":{
                     "type": "object",
                     "properties": {
-                      "street":{
-                        "type": "string",
-                        "example": "jalanjalan"
-                      },
-                      "city":{
-                        "type": "string",
-                        "example": "surabaya"
-                      },
-                      "region":{
-                        "type": "string",
-                        "example": "indonesia"
-                      },
-                      "postal code":{
-                        "type": "integer",
-                        "example": 123456
-                      }
                     }
                   }
                 }
@@ -272,22 +248,6 @@
                         "address":{
                           "type": "object",
                           "properties": {
-                            "street":{
-                              "type": "string",
-                              "example": "jalanjalan"
-                            },
-                            "city":{
-                              "type": "string",
-                              "example": "surabaya"
-                            },
-                            "region":{
-                              "type": "string",
-                              "example": "indonesia"
-                            },
-                            "postal code":{
-                              "type": "integer",
-                              "example": 123456
-                            }
                           }
                         }
                       }
@@ -350,22 +310,7 @@
                         "address":{
                           "type": "object",
                           "properties": {
-                            "street":{
-                              "type": "string",
-                              "example": "jalanjalan"
-                            },
-                            "city":{
-                              "type": "string",
-                              "example": "surabaya"
-                            },
-                            "region":{
-                              "type": "string",
-                              "example": "indonesia"
-                            },
-                            "postal code":{
-                              "type": "integer",
-                              "example": 123456
-                            }
+                            
                           }
                         }
                       }
