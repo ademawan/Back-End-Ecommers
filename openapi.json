@@ -1681,7 +1681,7 @@
                         },
                         "name_methods": {
                           "type": "string",
-                          "example": "shopee pay"
+                          "example": "shopee"
                         }
                       }
                     }
