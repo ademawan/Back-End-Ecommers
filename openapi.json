@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "ToDoList API",
+    "title": "E-Commerce ALTA - Project 1 (Group : 2)",
     "description": "Dokumentasi API ToDoList untuk kelas ICP",
     "contact": {
-      "name": "Jerry Young",
-      "email": "jerry@alterra.id"
+      "name": "kelompok 2",
+      "email": "kelompok2@aja.com"
     },
     "version": "1.0"
   },
@@ -23,94 +23,28 @@
       }
     }
   ],
-  "tags": [
-    {
-      "name": "ToDo",
-      "description": "List of ToDoList"
-    },
-    {
-      "name": "Checkpoint"
-    }
-  ],
   "paths": {
-    "/todo": {
-      "get": {
-        "summary": "Dapatkan seluruh data aktivitas",
+    "/users/login":{
+      "post":{
+        "summary": "Login Users",
         "tags": [
-          "ToDo"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "status": {
-                      "type": "boolean"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "kegiatan": {
-                            "type": "string"
-                          },
-                          "kapan": {
-                            "type": "string",
-                            "format": "date"
-                          }
-                        }
-                      },
-                      "example": [
-                        {
-                          "id": 1,
-                          "kegiatan": "main futsal",
-                          "kapan": "2021-11-30T00:00:00.000Z"
-                        },
-                        {
-                          "id": 2,
-                          "kegiatan": "kondangan mantan",
-                          "kapan": "2021-12-01T00:00:00.000Z"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Tambah data aktivitas",
-        "tags": [
-          "ToDo"
+          "Auth"
         ],
         "requestBody": {
           "required": true,
-          "description": "Menambah kegiatan baru dengan input sesuai parameter",
+          "description": "Please Login",
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "kegiatan": {
+                  "email": {
                     "type": "string",
-                    "example": "main futsal"
+                    "example": "test@test.com"
                   },
-                  "kapan": {
+                  "password": {
                     "type": "string",
-                    "format": "date"
+                    "example": "123456"
                   }
                 }
               }
@@ -129,12 +63,9 @@
                       "type": "integer",
                       "example": 200
                     },
-                    "success": {
-                      "type": "boolean"
-                    },
                     "message": {
                       "type": "string",
-                      "example": "Berhasil menambahkan aktivitas"
+                      "example": "Success Login"
                     },
                     "data": {
                       "type": "object",
@@ -143,15 +74,186 @@
                           "type": "integer",
                           "example": 1
                         },
-                        "kegiatan": {
+                        "name": {
                           "type": "string",
-                          "example": "main futsal"
+                          "example": "test"
                         },
-                        "kapan": {
+                        "email": {
                           "type": "string",
-                          "format": "date",
-                          "example": 
-                            "2021-11-30T00:00:00.000Z"
+                          "example": "test@test.com"
+                        }
+                      }
+                    },
+                    "token":{
+                      "type": "object",
+                      "example": "hbskbasua6t3286t87fg8ybibiesufbg9aey29f"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get All Users",
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to get all users"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "address":{
+                            "type": "string"
+                          },
+                          "rules_id":{
+                            "type":"integer"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "id": 1,
+                          "name": "test1",
+                          "email": "test1@test.com",
+                          "address": "jkt brow",
+                          "rules_id": 1
+                        },
+                        {
+                          "id": 2,
+                          "name": "test1",
+                          "email": "test1@test.com",
+                          "address": "jkt brow",
+                          "rules_id": 1
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/users/register":{
+      "post": {
+        "summary": "Register Users",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Input Parameters to Register",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "test"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "test@test.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123"
+                  },
+                  "address":{
+                    "type": "string",
+                    "example": "surabaya"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Resgister user"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name":{
+                          "type": "string",
+                          "example": "test"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "test@test.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example" : "123"
+                        },
+                        "address":{
+                          "type": "string",
+                          "example": "surabaya"
+                        },
+                        "rules_id":{
+                          "type": "integer",
+                          "example": 1
                         }
                       }
                     }
@@ -162,21 +264,91 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
           }
         }
       }
     },
-    "/todo/{id}": {
-      "put": {
-        "summary": "Ubah aktivitas berdasarkan ID",
+    "/users/profile": {
+      "get": {
+        "summary": "Get User Profile",
         "tags": [
-          "ToDo"
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to get all users"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "address":{
+                            "type": "string"
+                          },
+                          "rules_id":{
+                            "type":"integer"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "id": 1,
+                          "name": "test1",
+                          "email": "test1@test.com",
+                          "address": "surabaya",
+                          "password": "123",
+                          "rules_id": 1
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update User by ID",
+        "tags": [
+          "Users"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID Aktivitas hasil generate dari sistem",
+            "description": "User ID",
             "required": true,
             "schema": {
               "type": "integer"
@@ -189,11 +361,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/ToDoListInput"
+                "$ref": "#/components/schemas/TestListInput"
               },
               "example": {
-                "kegiatan": "main band",
-                "kapan": "2021-11-28"
+                "name": "updated_name",
+                "password": "updated_password"
               }
             }
           }
@@ -209,11 +381,10 @@
                 },
                 "example": {
                   "code": 1,
-                  "success": true,
                   "message": "Berhasil ubah aktivitas",
                   "data": {
-                    "kegiatan": "main band",
-                    "kapan": "2021-11-28"
+                    "name": "updated_name",
+                    "password": "updated_password"
                   }
                 }
               }
@@ -221,16 +392,19 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
           }
         }
       },
       "delete": {
         "tags": [
-          "ToDo"
+          "Users"
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/todoID"
+            "$ref": "#/components/parameters/task"
           }
         ],
         "responses": {
@@ -243,12 +417,17 @@
                 },
                 "example": {
                   "code": 200,
-                  "success": true,
-                  "message": "Berhasil hapus data",
+                  "message": "Success to delete Data",
                   "data": {}
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -256,7 +435,7 @@
   },
   "components": {
     "parameters": {
-      "todoID": {
+      "task": {
         "name": "id",
         "in": "path",
         "required": true,
@@ -266,15 +445,17 @@
       }
     },
     "schemas": {
-      "ToDoListInput": {
+      "TestListInput": {
         "type": "object",
         "properties": {
-          "kegiatan": {
+          "name": {
             "type": "string"
           },
-          "kapan": {
-            "type": "string",
-            "format": "date"
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         }
       },
@@ -284,21 +465,18 @@
           "code": {
             "type": "integer"
           },
-          "success": {
-            "type": "boolean"
-          },
           "message": {
             "type": "string"
           },
           "data": {
-            "$ref": "#/components/schemas/ToDoListInput"
+            "$ref": "#/components/schemas/TestListInput"
           }
         }
       }
     },
     "responses": {
       "400": {
-        "description": "Kesalahan dari client",
+        "description": "Invalid Input",
         "content": {
           "application/json": {
             "schema": {
@@ -308,13 +486,9 @@
                   "type": "integer",
                   "example": 400
                 },
-                "success": {
-                  "type": "boolean",
-                  "example": false
-                },
                 "message": {
                   "type": "string",
-                  "example": "Terjadi kesalahan pada input"
+                  "example": "invalid input"
                 },
                 "data": {
                   "type": "object"
@@ -323,7 +497,30 @@
             }
           }
         }
+      },
+      "500": {
+        "description": "Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "There are some problem in server"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+             }
+          }    
+        }
       }
-    }
+    }  
   }
 }
