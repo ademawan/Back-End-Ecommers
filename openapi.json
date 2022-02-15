@@ -1463,13 +1463,9 @@
                 "items":{
                   "type": "object",
                   "properties": {
-                    "product_id":{
-                      "type": "integer",
-                      "example": 5
-                    },
-                    "qty":{
-                      "type": "integer",
-                      "example": 2
+                    "name_methods":{
+                      "type": "string",
+                      "example": "ovo"
                     }
                   }
                 }
@@ -1496,25 +1492,13 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "cart_id": {
+                        "payment_methods_id": {
                           "type": "integer",
                           "example": 1
                         },
-                        "product_id": {
-                          "type": "integer",
-                          "example": 5
-                        },
-                        "user_id": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "qty": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "total_price": {
-                          "type": "integer",
-                          "example": 40000
+                        "name_methods": {
+                          "type": "string",
+                          "example": "ovo"
                         }
                       }
                     }
@@ -1557,37 +1541,26 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "cart_id": {
+                          "payment_methods_id": {
                             "type": "integer"
                           },
-                          "product_id": {
-                            "type": "integer"
-                          },
-                          "user_id": {
-                            "type": "integer"
-                          },
-                          "qty": {
-                            "type": "integer"
-                          },
-                          "total_price": {
-                            "type": "integer"
+                          "name_methods": {
+                            "type": "string"
                           }
                         }
                       },
                       "example": [
                         {
-                          "cart_id": 1,
-                          "product_id": 5,
-                          "user_id": 1,
-                          "qty":2,
-                          "total_price": 40000
+                          "payment_methods_id": 1,
+                          "name_methods": "ovo"
                         },
                         {
-                          "cart_id": 2,
-                          "product_id": 2,
-                          "user_id": 1,
-                          "qty":3,
-                          "total_price": 65000
+                          "payment_methods_id": 2,
+                          "name_methods": "gopay"
+                        },
+                        {
+                          "payment_methods_id": 3,
+                          "name_methods": "dana"
                         }
                       ]
                     }
@@ -1630,25 +1603,13 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "cart_id": {
+                        "payment_methods_id": {
                           "type": "integer",
                           "example": 1
                         },
-                        "product_id": {
-                          "type": "integer",
-                          "example": 5
-                        },
-                        "user_id": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "qty": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "total_price": {
-                          "type": "integer",
-                          "example": 40000
+                        "name_methods": {
+                          "type": "string",
+                          "example": "ovo"
                         }
                       }
                     }
@@ -1690,7 +1651,7 @@
                 "$ref": "#/components/schemas/TestListInput"
               },
               "example": {
-                "qty": 10
+                "name": "shopee pay"
               }
             }
           }
@@ -1714,25 +1675,13 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "cart_id": {
+                        "payment_methods_id": {
                           "type": "integer",
                           "example": 1
                         },
-                        "product_id": {
-                          "type": "integer",
-                          "example": 5
-                        },
-                        "user_id": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "qty": {
-                          "type": "integer",
-                          "example": 10
-                        },
-                        "total_price": {
-                          "type": "integer",
-                          "example": 100000
+                        "name_methods": {
+                          "type": "string",
+                          "example": "shopee pay"
                         }
                       }
                     }
