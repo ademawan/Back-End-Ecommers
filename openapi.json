@@ -125,26 +125,23 @@
                       "example": "Success to get all users"
                     },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "email": {
-                            "type": "string"
-                          },
-                          "address":{
-                            "type": "string"
-                          },
-                          "rules_id":{
-                            "type":"integer"
-                          }
-                        }
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "address":{
+                          "type": "string"
+                        },
+                        "rules_id":{
+                          "type":"integer"
+                        }                        
                       },
                       "example": [
                         {
@@ -204,8 +201,25 @@
                     "example": "123"
                   },
                   "address":{
-                    "type": "string",
-                    "example": "surabaya"
+                    "type": "object",
+                    "properties": {
+                      "street":{
+                        "type": "string",
+                        "example": "jalanjalan"
+                      },
+                      "city":{
+                        "type": "string",
+                        "example": "surabaya"
+                      },
+                      "region":{
+                        "type": "string",
+                        "example": "indonesia"
+                      },
+                      "postal code":{
+                        "type": "integer",
+                        "example": 123456
+                      }
+                    }
                   }
                 }
               }
@@ -231,11 +245,11 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "id": {
+                        "id":{
                           "type": "integer",
-                          "example": 1
+                          "example":1
                         },
-                        "name":{
+                        "name": {
                           "type": "string",
                           "example": "test"
                         },
@@ -245,15 +259,28 @@
                         },
                         "password": {
                           "type": "string",
-                          "example" : "123"
+                          "example": "123"
                         },
                         "address":{
-                          "type": "string",
-                          "example": "surabaya"
-                        },
-                        "rules_id":{
-                          "type": "integer",
-                          "example": 1
+                          "type": "object",
+                          "properties": {
+                            "street":{
+                              "type": "string",
+                              "example": "jalanjalan"
+                            },
+                            "city":{
+                              "type": "string",
+                              "example": "surabaya"
+                            },
+                            "region":{
+                              "type": "string",
+                              "example": "indonesia"
+                            },
+                            "postal code":{
+                              "type": "integer",
+                              "example": 123456
+                            }
+                          }
                         }
                       }
                     }
@@ -271,7 +298,7 @@
         }
       }
     },
-    "/users/profile": {
+    "/users/me": {
       "get": {
         "summary": "Get User Profile",
         "tags": [
@@ -291,7 +318,537 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Success to get all users"
+                      "example": "Success to Get Profile"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id":{
+                          "type": "integer",
+                          "example":1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "test"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "test@test.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "123"
+                        },
+                        "address":{
+                          "type": "object",
+                          "properties": {
+                            "street":{
+                              "type": "string",
+                              "example": "jalanjalan"
+                            },
+                            "city":{
+                              "type": "string",
+                              "example": "surabaya"
+                            },
+                            "region":{
+                              "type": "string",
+                              "example": "indonesia"
+                            },
+                            "postal code":{
+                              "type": "integer",
+                              "example": 123456
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update User",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/TestListInput"
+              },
+              "example": {
+                "name": "updated_name"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/SuccessSingleResponse"
+                },
+                "example": {
+                  "code": 1,
+                  "message": "Berhasil ubah aktivitas",
+                  "data": {
+                    "name": "updated_name"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete User",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessSingleResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Success to delete Data",
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/categories":{
+      "post": {
+        "summary": "Register Category",
+        "tags": [
+          "Category"
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Input Parameters to Register",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "categories 1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Create Category"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "categories 1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get All Categories",
+        "tags": [
+          "Category"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Get All Category"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "id": 1,
+                          "name": "marvel"
+                        },
+                        {
+                          "id": 2,
+                          "name": "DC"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/categories/{id}":{
+      "get": {
+        "summary": "Get a Categories",
+        "tags": [
+          "Category"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Get Category"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id":{
+                          "type": "integer",
+                          "example":1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "marvel"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Category",
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/TestListInput"
+              },
+              "example": {
+                "name": "new name categories"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Update Category"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id":{
+                          "type": "integer",
+                          "example":1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "new name category"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Category",
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessSingleResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Success to delete Data",
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "summary": "Register Products",
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Input Data Products to Register",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category_id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "barbatros"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "example": 5000
+                  },
+                  "qty": {
+                    "type": "integer",
+                    "example": 10
+                  },
+                  "description":{
+                    "type": "string",
+                    "example": "MG 1/100"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Sucess to register products"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "category_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "barbatros"
+                        },
+                        "price": {
+                          "type": "integer",
+                          "example": 5000
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "description":{
+                          "type": "string",
+                          "example": "MG 1/100"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get All Product",
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to get all product"
                     },
                     "data": {
                       "type": "array",
@@ -318,11 +875,17 @@
                       "example": [
                         {
                           "id": 1,
-                          "name": "test1",
-                          "email": "test1@test.com",
-                          "address": "surabaya",
-                          "password": "123",
-                          "rules_id": 1
+                          "category_id": 1,
+                          "name": "barbatros",
+                          "price": 5000,
+                          "qty": 10
+                        },
+                        {
+                          "id": 2,
+                          "category_id": 2,
+                          "name": "spiderman",
+                          "price": 15000,
+                          "qty": 5
                         }
                       ]
                     }
@@ -338,11 +901,76 @@
             "$ref": "#/components/responses/500"
           }
         }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Get Product details",
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to get product details"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "category_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "barbatros"
+                        },
+                        "price": {
+                          "type": "integer",
+                          "example": 5000
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "description":{
+                          "type": "string",
+                          "example": "MG 1/100"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
       },
       "put": {
-        "summary": "Update User by ID",
+        "summary": "Update product",
         "tags": [
-          "Users"
+          "Products"
         ],
         "parameters": [
           {
@@ -364,8 +992,8 @@
                 "$ref": "#/components/schemas/TestListInput"
               },
               "example": {
-                "name": "updated_name",
-                "password": "updated_password"
+                "name": "updated_name_product",
+                "qty": 25
               }
             }
           }
@@ -377,14 +1005,44 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/SuccessSingleResponse"
-                },
-                "example": {
-                  "code": 1,
-                  "message": "Berhasil ubah aktivitas",
-                  "data": {
-                    "name": "updated_name",
-                    "password": "updated_password"
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to get product details"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "category_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "update_name_product"
+                        },
+                        "price": {
+                          "type": "integer",
+                          "example": 5000
+                        },
+                        "qty": {
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "description":{
+                          "type": "string",
+                          "example": "MG 1/100"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -400,11 +1058,17 @@
       },
       "delete": {
         "tags": [
-          "Users"
+          "Products"
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/task"
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -435,7 +1099,7 @@
   },
   "components": {
     "parameters": {
-      "task": {
+      "input": {
         "name": "id",
         "in": "path",
         "required": true,
