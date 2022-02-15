@@ -125,40 +125,48 @@
                       "example": "Success to get all users"
                     },
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer"
-                        },
-                        "name": {
-                          "type": "string"
-                        },
-                        "email": {
-                          "type": "string"
-                        },
-                        "address":{
-                          "type": "string"
-                        },
-                        "rules_id":{
-                          "type":"integer"
-                        }                        
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "integer"
+                          },
+                          "address": {
+                            "type": "object"
+                          }
+                        }
                       },
                       "example": [
                         {
                           "id": 1,
-                          "name": "test1",
-                          "email": "test1@test.com",
-                          "address": "jkt brow",
-                          "rules_id": 1
+                          "name": "test",
+                          "email": "test@test.com",
+                          "address": {
+                            "street": "jalanjalan",
+                            "city": "surabaya",
+                            "region": "indonesia",
+                            "postal code": 123456
+                          }
                         },
                         {
                           "id": 2,
-                          "name": "test1",
-                          "email": "test1@test.com",
-                          "address": "jkt brow",
-                          "rules_id": 1
+                          "name": "test2",
+                          "email": "test2@test.com",
+                          "address": {
+                            "street": "jalanjalanaja",
+                            "city": "bogor",
+                            "region": "indonesia",
+                            "postal code": 123456
+                          }
                         }
-                      ]
+                      ]                 
                     }
                   }
                 }
@@ -451,7 +459,7 @@
         }
       }
     },
-    "/categories":{
+    "/category":{
       "post": {
         "summary": "Register Category",
         "tags": [
@@ -571,7 +579,7 @@
         }
       }
     },
-    "/categories/{id}":{
+    "/category/{id}":{
       "get": {
         "summary": "Get a Categories",
         "tags": [
@@ -1059,6 +1067,294 @@
       "delete": {
         "tags": [
           "Products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessSingleResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Success to delete Data",
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/carts":{
+      "post": {
+        "summary": "Register Cart",
+        "tags": [
+          "Cart"
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Input Parameters to Register",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",           
+                "items":{
+                  "type": "object",
+                  "properties": {
+                    "product_id":{
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "qty":{
+                      "type": "integer",
+                      "example": 2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Create Cart"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "categories 1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get All Categories",
+        "tags": [
+          "Cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Get All Cart"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "id": 1,
+                          "name": "marvel"
+                        },
+                        {
+                          "id": 2,
+                          "name": "DC"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/carts/{id}":{
+      "get": {
+        "summary": "Get a Categories",
+        "tags": [
+          "Cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Get Cart"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id":{
+                          "type": "integer",
+                          "example":1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "marvel"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Cart",
+        "tags": [
+          "Cart"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/TestListInput"
+              },
+              "example": {
+                "name": "new name categories"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success to Update Cart"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id":{
+                          "type": "integer",
+                          "example":1
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "new name category"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500":{
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Category",
+        "tags": [
+          "Cart"
         ],
         "parameters": [
           {
