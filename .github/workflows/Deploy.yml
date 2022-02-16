@@ -14,7 +14,6 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          echo ${{ secrets.USERNAME }}
-          cd Be-6-test
-          git pull origin main
-          docker-compose down --rmi all && docker-compose up --build -d
+          mkdir project-1-K2
+          cd project-1-K2
+          git clone https://github.com/E-commerce-grup2/Back-End-Ecommers.git
