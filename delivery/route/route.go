@@ -22,12 +22,12 @@ func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressCont
 
 	//===========================================================
 	//ROUTE TASK
-	eTask := e.Group("")
-	eTask.Use(m.JWT([]byte(configs.JWT_SECRET)))
-	e.POST("address", ac.Register())
-	eTask.GET("address", ac.Get())
-	eTask.GET("address/:id", ac.GetById())
-	eTask.PUT("address/:id", ac.Update())
-	eTask.DELETE("address/:id", ac.Delete())
+	ea := e.Group("")
+	ea.Use(m.JWT([]byte(configs.JWT_SECRET)))
+	ea.POST("address", ac.Register())
+	ea.GET("address", ac.Get())
+	ea.GET("address/:id", ac.GetById())
+	ea.PUT("address/:id", ac.Update())
+	ea.DELETE("address/:id", ac.Delete())
 
 }

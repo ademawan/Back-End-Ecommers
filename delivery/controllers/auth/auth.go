@@ -1,36 +1,45 @@
 package auth
 
-// type AuthController struct {
-// 	repo auth.Auth
-// }
+import (
+	"Back-End-Ecommers/delivery/controllers/common"
+	"Back-End-Ecommers/delivery/middlewares"
+	"Back-End-Ecommers/repository/auth"
+	"net/http"
 
-// func New(repo auth.Auth) *AuthController {
-// 	return &AuthController{
-// 		repo: repo,
-// 	}
-// }
+	"github.com/labstack/echo/v4"
+)
 
-// func (ac *AuthController) Login() echo.HandlerFunc {
-// 	return func(c echo.Context) error {
-// 		Userlogin := request.Userlogin{}
+type AuthController struct {
+	repo auth.Auth
+}
 
-// 		if err := c.Bind(&Userlogin); err != nil || Userlogin.Email == "" || Userlogin.Password == "" {
-// 			return c.JSON(http.StatusBadRequest, base.BadRequest(nil, "error in input file", nil))
-// 		}
-// 		checkedUser, err := ac.repo.Login(Userlogin)
+func New(repo auth.Auth) *AuthController {
+	return &AuthController{
+		repo: repo,
+	}
+}
 
-// 		if err != nil {
-// 			return c.JSON(http.StatusInternalServerError, base.InternalServerError(nil, "error in call database", nil))
-// 		}
-// 		token, err := middlewares.GenerateToken(checkedUser)
+func (ac *AuthController) Login() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		Userlogin := LoginReqFormat{}
 
-// 		if err != nil {
-// 			return c.JSON(http.StatusNotAcceptable, base.BadRequest(http.StatusNotAcceptable, "error in process token", nil))
-// 		}
+		if err := c.Bind(&Userlogin); err != nil || Userlogin.Email == "" || Userlogin.Password == "" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "error in input file", nil))
+		}
+		checkedUser, err := ac.repo.Login(Userlogin.Email, Userlogin.Password)
 
-// 		return c.JSON(http.StatusOK, base.Success(nil, "success login", map[string]interface{}{
-// 			"data":  checkedUser,
-// 			"token": token,
-// 		}))
-// 	}
-// }
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(nil, "error in call database", nil))
+		}
+		token, err := middlewares.GenerateToken(checkedUser)
+
+		if err != nil {
+			return c.JSON(http.StatusNotAcceptable, common.BadRequest(http.StatusNotAcceptable, "error in process token", nil))
+		}
+
+		return c.JSON(http.StatusOK, common.Success(nil, "success login", map[string]interface{}{
+			"data":  checkedUser,
+			"token": token,
+		}))
+	}
+}
