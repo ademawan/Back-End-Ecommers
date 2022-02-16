@@ -3,13 +3,7 @@ package utils
 import (
 	config "Back-End-Ecommers/configs"
 
-	"Back-End-Ecommers/entities/cart"
 	"Back-End-Ecommers/entities/category"
-	"Back-End-Ecommers/entities/order"
-	"Back-End-Ecommers/entities/order_detail"
-	"Back-End-Ecommers/entities/payment"
-	"Back-End-Ecommers/entities/product"
-	"Back-End-Ecommers/entities/user"
 	"fmt"
 
 	"github.com/labstack/gommon/log"
@@ -39,11 +33,11 @@ func InitDB(config *config.AppConfig) *gorm.DB {
 }
 
 func AutoMigrate(DB *gorm.DB) {
-	DB.AutoMigrate(&user.User{})
+	// DB.AutoMigrate(&user.User{})
 	DB.AutoMigrate(&category.Category{})
-	DB.AutoMigrate(&product.Product{})
-	DB.AutoMigrate(&payment.Payment{})
-	DB.AutoMigrate(&order.Order{})
-	DB.AutoMigrate(&order_detail.Order_detail{})
-	DB.AutoMigrate(&cart.Cart{})
+	// DB.AutoMigrate(&product.Product{})
+	// DB.AutoMigrate(&payment.Payment{})
+	// DB.AutoMigrate(&order.Order{})
+	// DB.AutoMigrate(&order_detail.Order_detail{})
+	// DB.AutoMigrate(&cart.Cart{})
 }
