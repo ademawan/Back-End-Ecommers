@@ -54,7 +54,7 @@ func (ac *UserController) Register() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input", nil))
 		}
 
-		res, err := ac.repo.UserRegister(entities.User{Name: user.Name, Email: user.Email, Password: user.Password, Status: user.Status})
+		res, err := ac.repo.Register(entities.User{Name: user.Name, Email: user.Email, Password: user.Password, Status: user.Status})
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))

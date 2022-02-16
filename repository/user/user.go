@@ -41,7 +41,7 @@ func (ur *UserRepository) GetById(userId int) (entities.User, error) {
 	return arrUser, nil
 }
 
-func (ur *UserRepository) UserRegister(u entities.User) (entities.User, error) {
+func (ur *UserRepository) Register(u entities.User) (entities.User, error) {
 	if err := ur.database.Create(&u).Error; err != nil {
 		return u, err
 	}
