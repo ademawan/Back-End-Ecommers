@@ -1,15 +1,15 @@
 package category
 
 import (
-	"Back-End-Ecommers/entities/category"
+	"Back-End-Ecommers/entities"
 
 	"gorm.io/gorm"
 )
 
 type Category interface {
-	Create(newCategory category.Category) (category.Category, error)
-	GetById(categoryId int) (category.Category, error)
-	Update(categoryId int, newCategory category.Category) (category.Category, error)
+	Create(newCategory entities.Category) (entities.Category, error)
+	GetById(categoryId int) (entities.Category, error)
+	Update(categoryId int, newCategory entities.Category) (entities.Category, error)
 	Delete(categoryId int) (gorm.DeletedAt, error)
-	GetAll() ([]category.Category, error)
+	GetAll() ([]entities.Category, error)
 }

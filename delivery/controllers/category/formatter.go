@@ -2,11 +2,11 @@ package category
 
 import "time"
 
-type requestCategory struct {
+type RequestCategory struct {
 	Name string `json:"name"`
 }
 
-type responseCategory struct {
+type ResponseCategory struct {
 	ID        uint      `json:"id"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`

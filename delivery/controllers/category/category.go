@@ -3,7 +3,7 @@ package category
 import (
 	"Back-End-Ecommers/delivery/controllers/common"
 	"Back-End-Ecommers/delivery/middlewares"
-	entCategory "Back-End-Ecommers/entities/category"
+	"Back-End-Ecommers/entities"
 	"Back-End-Ecommers/repository/category"
 	"net/http"
 
@@ -22,13 +22,13 @@ func New(repository category.Category) *CategoryrController {
 
 func (cc *CategoryrController) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		requestFormat := requestCategory{}
+		requestFormat := RequestCategory{}
 
 		if err := c.Bind(&requestFormat); err != nil || requestFormat.Name == "" {
 			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "Invalid in Input Data Category", nil))
 		}
 
-		newCategory := entCategory.Category{
+		newCategory := entities.Category{
 			Name: requestFormat.Name,
 		}
 

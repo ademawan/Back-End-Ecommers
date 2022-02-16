@@ -2,7 +2,7 @@ package category
 
 import (
 	config "Back-End-Ecommers/configs"
-	"Back-End-Ecommers/entities/category"
+	"Back-End-Ecommers/entities"
 	"Back-End-Ecommers/utils"
 	"testing"
 
@@ -15,11 +15,11 @@ func TestCreate(t *testing.T) {
 	config := config.GetConfig()
 	db := utils.InitDB(config)
 	repo := New(db)
-	db.Migrator().DropTable(&category.Category{})
-	db.AutoMigrate(&category.Category{})
+	db.Migrator().DropTable(&entities.Category{})
+	db.AutoMigrate(&entities.Category{})
 
 	t.Run("success run Create", func(t *testing.T) {
-		mockCategory := category.Category{Name: "Action Figure"}
+		mockCategory := entities.Category{Name: "Action Figure"}
 		res, err := repo.Create(mockCategory)
 		assert.Nil(t, err)
 		assert.Equal(t, "Action Figure", res.Name)
@@ -27,11 +27,11 @@ func TestCreate(t *testing.T) {
 	})
 
 	t.Run("fail run Create", func(t *testing.T) {
-		mockCategoryP := category.Category{Name: "Accessories"}
+		mockCategoryP := entities.Category{Name: "Accessories"}
 		if _, err := repo.Create(mockCategoryP); err != nil {
 			t.Fatal()
 		}
-		mockCategory := category.Category{Model: gorm.Model{ID: 1}, Name: "anonim123"}
+		mockCategory := entities.Category{Model: gorm.Model{ID: 1}, Name: "anonim123"}
 		_, err := repo.Create(mockCategory)
 		assert.NotNil(t, err)
 	})
@@ -41,11 +41,11 @@ func TestGetById(t *testing.T) {
 	config := config.GetConfig()
 	db := utils.InitDB(config)
 	repo := New(db)
-	db.Migrator().DropTable(&category.Category{})
-	db.AutoMigrate(&category.Category{})
+	db.Migrator().DropTable(&entities.Category{})
+	db.AutoMigrate(&entities.Category{})
 
 	t.Run("success run Get By Id", func(t *testing.T) {
-		mockCategory := category.Category{Name: "Action Figure"}
+		mockCategory := entities.Category{Name: "Action Figure"}
 		if _, err := repo.Create(mockCategory); err != nil {
 			t.Fatal()
 		}
@@ -58,7 +58,7 @@ func TestGetById(t *testing.T) {
 	})
 
 	t.Run("fail run Get By Id", func(t *testing.T) {
-		mockCategoryP := category.Category{Name: "Accessories"}
+		mockCategoryP := entities.Category{Name: "Accessories"}
 		if _, err := repo.Create(mockCategoryP); err != nil {
 			t.Fatal()
 		}
@@ -73,16 +73,16 @@ func TestUpdateById(t *testing.T) {
 	config := config.GetConfig()
 	db := utils.InitDB(config)
 	repo := New(db)
-	db.Migrator().DropTable(&category.Category{})
-	db.AutoMigrate(&category.Category{})
+	db.Migrator().DropTable(&entities.Category{})
+	db.AutoMigrate(&entities.Category{})
 
 	t.Run("success run Update By Id", func(t *testing.T) {
-		mockCategory := category.Category{Name: "Action Figure"}
+		mockCategory := entities.Category{Name: "Action Figure"}
 		if _, err := repo.Create(mockCategory); err != nil {
 			t.Fatal()
 		}
 
-		mockCategoryUpdate := category.Category{Name: "Model Kit"}
+		mockCategoryUpdate := entities.Category{Name: "Model Kit"}
 
 		res, err := repo.UpdateById(1, mockCategoryUpdate)
 		assert.Nil(t, err)
@@ -91,7 +91,7 @@ func TestUpdateById(t *testing.T) {
 	})
 
 	t.Run("fail run Update By Id", func(t *testing.T) {
-		mockCategoryP := category.Category{Name: "Accessories"}
+		mockCategoryP := entities.Category{Name: "Accessories"}
 		if _, err := repo.Create(mockCategoryP); err != nil {
 			t.Fatal()
 		}
@@ -106,11 +106,11 @@ func TestDeleteById(t *testing.T) {
 	config := config.GetConfig()
 	db := utils.InitDB(config)
 	repo := New(db)
-	db.Migrator().DropTable(&category.Category{})
-	db.AutoMigrate(&category.Category{})
+	db.Migrator().DropTable(&entities.Category{})
+	db.AutoMigrate(&entities.Category{})
 
 	t.Run("success run Delete By Id", func(t *testing.T) {
-		mockCategory := category.Category{Name: "Action Figure"}
+		mockCategory := entities.Category{Name: "Action Figure"}
 		if _, err := repo.Create(mockCategory); err != nil {
 			t.Fatal()
 		}
@@ -122,7 +122,7 @@ func TestDeleteById(t *testing.T) {
 	})
 
 	t.Run("fail run Delete By Id", func(t *testing.T) {
-		mockCategoryP := category.Category{Name: "Accessories"}
+		mockCategoryP := entities.Category{Name: "Accessories"}
 		if _, err := repo.Create(mockCategoryP); err != nil {
 			t.Fatal()
 		}
@@ -136,11 +136,11 @@ func TestGetAll(t *testing.T) {
 	config := config.GetConfig()
 	db := utils.InitDB(config)
 	repo := New(db)
-	db.Migrator().DropTable(&category.Category{})
-	db.AutoMigrate(&category.Category{})
+	db.Migrator().DropTable(&entities.Category{})
+	db.AutoMigrate(&entities.Category{})
 
 	t.Run("success run Get All", func(t *testing.T) {
-		mockCategory := category.Category{Name: "Action Figure"}
+		mockCategory := entities.Category{Name: "Action Figure"}
 		if _, err := repo.Create(mockCategory); err != nil {
 			t.Fatal()
 		}

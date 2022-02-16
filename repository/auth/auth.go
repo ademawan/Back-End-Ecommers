@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"Back-End-Ecommers/entities/user"
+	"Back-End-Ecommers/entities"
 
 	"gorm.io/gorm"
 )
@@ -16,8 +16,8 @@ func New(db *gorm.DB) *AuthDb {
 	}
 }
 
-func (ad *AuthDb) Login(email, password string) (user.User, error) {
-	user := user.User{}
+func (ad *AuthDb) Login(email, password string) (entities.User, error) {
+	user := entities.User{}
 	if err := ad.db.Model(&user).Where("email = ? AND password = ?", email, password).First(&user).Error; err != nil {
 		return user, err
 	}
