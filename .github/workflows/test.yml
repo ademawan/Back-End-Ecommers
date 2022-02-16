@@ -13,4 +13,5 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
-        script: whoami
+        script: | 
+          git clone https://github.com/E-commerce-grup2/Back-End-Ecommers.git
