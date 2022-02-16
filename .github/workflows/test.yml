@@ -16,4 +16,4 @@ jobs:
         script: |
           mkdir Be-6-test
           cd Be-6-test
-          git clone https://github.com/E-commerce-grup2/Back-End-Ecommers.git
+          git clone https://github.com/jackthepanda96/docker-be5.git
