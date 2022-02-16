@@ -4,6 +4,10 @@ import (
 	config "Back-End-Ecommers/configs"
 	"Back-End-Ecommers/entities"
 
+<<<<<<< HEAD
+=======
+	"Back-End-Ecommers/entities/category"
+>>>>>>> categories
 	"fmt"
 
 	"github.com/labstack/gommon/log"
@@ -33,6 +37,7 @@ func InitDB(config *config.AppConfig) *gorm.DB {
 }
 
 func AutoMigrate(DB *gorm.DB) {
+<<<<<<< HEAD
 
 	DB.Migrator().DropTable(&entities.Address{})
 	DB.Migrator().DropTable(&entities.User{})
@@ -46,6 +51,10 @@ func AutoMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&entities.User{})
 	DB.AutoMigrate(&entities.Address{})
 	// DB.AutoMigrate(&category.Category{})
+=======
+	// DB.AutoMigrate(&user.User{})
+	DB.AutoMigrate(&category.Category{})
+>>>>>>> categories
 	// DB.AutoMigrate(&product.Product{})
 	// DB.AutoMigrate(&payment.Payment{})
 	// DB.AutoMigrate(&order.Order{})
