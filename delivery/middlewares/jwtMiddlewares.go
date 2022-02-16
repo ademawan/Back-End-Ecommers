@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	config "Back-End-Ecommers/configs"
-	"Back-End-Ecommers/entities/user"
+	"Back-End-Ecommers/entities"
 	"errors"
 
 	"time"
@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GenerateToken(u user.User) (string, error) {
+func GenerateToken(u entities.User) (string, error) {
 	if u.ID == 0 {
 		return "cannot Generate token", errors.New("id == 0")
 	}
