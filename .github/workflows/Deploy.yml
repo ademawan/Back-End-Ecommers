@@ -14,6 +14,7 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          mkdir Be-6-test
+          echo ${{ secrets.USERNAME }}
           cd Be-6-test
-          git clone https://github.com/jackthepanda96/docker-be5.git
+          git pull origin main
+          docker-compose down --rmi all && docker-compose up --build -d
