@@ -9,6 +9,8 @@ type Cart struct {
 
 	Qty         int
 	Total_price int
-	User        User    `gorm:"ForeignKey:Cart_ID"`
-	Product     Product `gorm:"ForeignKey:Cart_ID"`
+	User_ID     int `gorm:"column:user_id" json:"user_id"`
+	User        User
+	Product_ID  int `gorm:"column:product_id" json:"product_id"`
+	Product     Product
 }

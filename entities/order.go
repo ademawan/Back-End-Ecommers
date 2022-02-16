@@ -7,7 +7,8 @@ import (
 type Order struct {
 	gorm.Model
 
-	User            User    `gorm:"ForeignKey:Order_ID"`
-	Payment         Payment `gorm:"ForeignKey:Order_ID"`
-	Order_detail_ID int     `gorm:"column:order_detail_id" json:"order_detail_id"`
+	User_ID    int `gorm:"column:user_id" json:"user_id"`
+	User       User
+	Payment_ID int `gorm:"column:payment_id" json:"payment_id"`
+	Payment    Payment
 }

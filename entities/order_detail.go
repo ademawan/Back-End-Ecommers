@@ -9,6 +9,8 @@ type Order_detail struct {
 
 	Qty         int
 	Total_price int
-	Product     Product `gorm:"ForeignKey:Order_detail_ID"`
-	Order       Order   `gorm:"ForeignKey:Order_detail_ID"`
+	Product_ID  int `gorm:"column:product_id" json:"product_id"`
+	Product     Product
+	Order_ID    int `gorm:"column:order_id" json:"order_id"`
+	Order       Order
 }
