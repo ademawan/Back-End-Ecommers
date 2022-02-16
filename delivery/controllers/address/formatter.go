@@ -11,14 +11,14 @@ type InsertAddressRequestFormat struct {
 	Street      string `json:"street" form:"street"`
 	City        string `json:"city" form:"city"`
 	Region      string `json:"region" form:"region"`
-	Postal_code int    `json:"postal_code" form:"postal_code"`
+	Postal_code string `json:"postal_code" form:"postal_code"`
 	User_ID     int    `json:"user_id" form:"user_id"`
 }
 type UpdateAddressRequestFormat struct {
 	Street      string `json:"street" form:"street"`
 	City        string `json:"city" form:"city"`
 	Region      string `json:"region" form:"region"`
-	Postal_code int    `json:"postal_code" form:"postal_code"`
+	Postal_code string `json:"postal_code" form:"postal_code"`
 }
 
 //-----------------------------------------------------
