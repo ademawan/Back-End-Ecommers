@@ -1,9 +1,13 @@
 package category
 
-import "gorm.io/gorm"
+import (
+	"Back-End-Ecommers/entities/product"
+
+	"gorm.io/gorm"
+)
 
 type Category struct {
 	gorm.Model
-	Name_category string
-	Product_id    uint
+	Name    string
+	Product []product.Product `gorm:"foreignKey:Category_id"`
 }
