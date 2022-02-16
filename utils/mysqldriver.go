@@ -4,10 +4,6 @@ import (
 	config "Back-End-Ecommers/configs"
 	"Back-End-Ecommers/entities"
 
-<<<<<<< HEAD
-=======
-	"Back-End-Ecommers/entities/category"
->>>>>>> categories
 	"fmt"
 
 	"github.com/labstack/gommon/log"
@@ -37,27 +33,12 @@ func InitDB(config *config.AppConfig) *gorm.DB {
 }
 
 func AutoMigrate(DB *gorm.DB) {
-<<<<<<< HEAD
-
-	DB.Migrator().DropTable(&entities.Address{})
-	DB.Migrator().DropTable(&entities.User{})
-	// DB.Migrator().DropTable(&category.Category{})
-	// DB.Migrator().DropTable(&product.Product{})
-	// DB.Migrator().DropTable(&payment.Payment{})
-	// DB.Migrator().DropTable(&order.Order{})
-	// DB.Migrator().DropTable(&order_detail.Order_detail{})
-	// DB.Migrator().DropTable(&cart.Cart{})
-
 	DB.AutoMigrate(&entities.User{})
+	DB.AutoMigrate(&entities.Category{})
+	DB.AutoMigrate(&entities.Product{})
+	DB.AutoMigrate(&entities.Payment{})
+	DB.AutoMigrate(&entities.Order{})
+	DB.AutoMigrate(&entities.Order_detail{})
+	DB.AutoMigrate(&entities.Cart{})
 	DB.AutoMigrate(&entities.Address{})
-	// DB.AutoMigrate(&category.Category{})
-=======
-	// DB.AutoMigrate(&user.User{})
-	DB.AutoMigrate(&category.Category{})
->>>>>>> categories
-	// DB.AutoMigrate(&product.Product{})
-	// DB.AutoMigrate(&payment.Payment{})
-	// DB.AutoMigrate(&order.Order{})
-	// DB.AutoMigrate(&order_detail.Order_detail{})
-	// DB.AutoMigrate(&cart.Cart{})
 }
