@@ -2,6 +2,7 @@ package address
 
 import (
 	"Back-End-Ecommers/entities"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -36,7 +37,9 @@ func (tr *AddressRepository) GetById(addressId int) (entities.Address, error) {
 	return arrAddress, nil
 }
 
-func (tr *AddressRepository) Insert(t entities.Address) (entities.Address, error) {
+func (tr *AddressRepository) Insert(user_id int, t entities.Address) (entities.Address, error) {
+	t.User_ID = int(user_id)
+
 	if err := tr.database.Create(&t).Error; err != nil {
 		return t, err
 	}
@@ -44,16 +47,25 @@ func (tr *AddressRepository) Insert(t entities.Address) (entities.Address, error
 	return t, nil
 }
 
-func (tr *AddressRepository) Update(addressId int, newAddress entities.Address) (entities.Address, error) {
+func (tr *AddressRepository) Update(addressId int, user_id int, newAddress entities.Address) (entities.Address, error) {
 
-	var address entities.Address
-	tr.database.First(&address, addressId)
+	res := tr.database.Model(entities.Address{Model: gorm.Model{ID: uint(addressId)}, User_ID: int(user_id)}).Updates(newAddress)
 
-	if err := tr.database.Model(&address).Updates(&newAddress).Error; err != nil {
-		return address, err
+	if res.RowsAffected == 0 {
+		return entities.Address{}, errors.New(gorm.ErrRecordNotFound.Error())
 	}
 
+	address := newAddress
+
 	return address, nil
+	// var address entities.Address
+	// tr.database.First(&address, addressId)
+
+	// if err := tr.database.Model(&address).Updates(&newAddress).Error; err != nil {
+	// 	return address, err
+	// }
+
+	// return address, nil
 }
 
 func (tr *AddressRepository) Delete(addressId int) error {

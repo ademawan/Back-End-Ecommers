@@ -16,7 +16,17 @@ func New(db *gorm.DB) *UserRepository {
 	}
 }
 
-func (ur *UserRepository) Get() ([]entities.User, error) {
+func (ur *UserRepository) Register(u entities.User) (entities.User, error) {
+	if err := ur.database.Create(&u).Error; err != nil {
+		return u, err
+	}
+
+	ur.database.Create(&u)
+
+	return u, nil
+}
+
+func (ur *UserRepository) GetAll() ([]entities.User, error) {
 	arrUser := []entities.User{}
 
 	if err := ur.database.Preload("Address").Find(&arrUser).Error; err != nil {
@@ -39,16 +49,6 @@ func (ur *UserRepository) GetById(userId int) (entities.User, error) {
 	}
 
 	return arrUser, nil
-}
-
-func (ur *UserRepository) Register(u entities.User) (entities.User, error) {
-	if err := ur.database.Create(&u).Error; err != nil {
-		return u, err
-	}
-
-	ur.database.Create(&u)
-
-	return u, nil
 }
 
 func (ur *UserRepository) Update(userId int, newUser entities.User) (entities.User, error) {
