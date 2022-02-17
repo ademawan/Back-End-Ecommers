@@ -21,8 +21,6 @@ func (ur *UserRepository) Register(u entities.User) (entities.User, error) {
 		return u, err
 	}
 
-	ur.database.Create(&u)
-
 	return u, nil
 }
 

@@ -4,6 +4,7 @@ import (
 	"Back-End-Ecommers/delivery/controllers/address"
 	"Back-End-Ecommers/delivery/controllers/auth"
 	"Back-End-Ecommers/delivery/controllers/cart"
+	"Back-End-Ecommers/delivery/controllers/order"
 	"Back-End-Ecommers/delivery/controllers/payment"
 	"Back-End-Ecommers/delivery/controllers/product"
 	"Back-End-Ecommers/delivery/controllers/user"
@@ -13,7 +14,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressController, aa *auth.AuthController, pc *product.ProductController) {
+func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressController, aa *auth.AuthController, pc *product.ProductController, oc *order.OrderController) {
 
 	//=========================================================
 
@@ -51,6 +52,13 @@ func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressCont
 	ea.GET("products/:id", pc.GetById(), middlewares.JwtMiddleware())
 	ea.PUT("products/:id", pc.Update(), middlewares.JwtMiddleware())
 	ea.DELETE("products/:id", pc.Delete(), middlewares.JwtMiddleware())
+
+	//ROUTE ORDER
+	e.POST("orders", oc.Create(), middlewares.JwtMiddleware())
+	e.GET("orders", oc.Get(), middlewares.JwtMiddleware())
+	e.GET("orders/:id", oc.GetById(), middlewares.JwtMiddleware())
+	e.PUT("orders/:id", oc.Update(), middlewares.JwtMiddleware())
+	e.DELETE("orders/:id", oc.Delete(), middlewares.JwtMiddleware())
 }
 
 func PaymentMethodPath(e *echo.Echo, pc *payment.PaymentController) {

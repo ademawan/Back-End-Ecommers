@@ -19,7 +19,7 @@ func New(db *gorm.DB) *OrderRepository {
 func (ur *OrderRepository) Get() ([]entities.Order, error) {
 	arrOrder := []entities.Order{}
 
-	if err := ur.database.Find(&arrOrder).Error; err != nil {
+	if err := ur.database.Preload("User").Preload("Payment").Preload("User.Address").Find(&arrOrder).Error; err != nil {
 		return nil, err
 	}
 
@@ -31,7 +31,7 @@ func (ur *OrderRepository) GetById(orderId int) (entities.Order, error) {
 	// var artikel models.Artikel
 
 	// Conn.Preload("Komentar").Find(&artikle)
-	result := ur.database.Preload("Product").Preload("").Where("ID = ?", orderId).First(&arrOrder)
+	result := ur.database.Preload("User").Preload("Payment").Preload("User.Address").Where("ID = ?", orderId).First(&arrOrder)
 	// if err := ur.database.Preload("Task").Find(&arrOrder, orderId).Error; err != nil {
 
 	if err := result.Error; err != nil {
@@ -41,8 +41,10 @@ func (ur *OrderRepository) GetById(orderId int) (entities.Order, error) {
 	return arrOrder, nil
 }
 
-func (ur *OrderRepository) Create(u entities.Order) (entities.Order, error) {
-	if err := ur.database.Create(&u).Error; err != nil {
+func (ur *OrderRepository) Create(userId int, u entities.Order) (entities.Order, error) {
+	order := entities.Order{User_ID: userId, Payment_ID: u.Payment_ID}
+
+	if err := ur.database.Create(&order).Error; err != nil {
 		return u, err
 	}
 
