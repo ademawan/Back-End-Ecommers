@@ -2,75 +2,69 @@ package payment
 
 import (
 	"Back-End-Ecommers/entities"
+	"errors"
 
 	"gorm.io/gorm"
 )
 
 type PaymentRepository struct {
-	database *gorm.DB
+	db *gorm.DB
 }
 
 func New(db *gorm.DB) *PaymentRepository {
 	return &PaymentRepository{
-		database: db,
+		db: db,
 	}
 }
 
-func (ur *PaymentRepository) Register(newPayment entities.Payment) (entities.Payment, error) {
-	if err := ur.database.Create(&newPayment).Error; err != nil {
+func (cr *PaymentRepository) Create(newPayment entities.Payment) (entities.Payment, error) {
+	if err := cr.db.Create(&newPayment).Error; err != nil {
 		return newPayment, err
 	}
+	return newPayment, nil
+}
 
-	ur.database.Create(&newPayment)
+func (cr *PaymentRepository) GetById(PaymentId int) (entities.Payment, error) {
+	arrPayment := entities.Payment{}
+
+	result := cr.db.Where("ID = ?", PaymentId).First(&arrPayment)
+
+	if err := result.Error; err != nil {
+		return arrPayment, err
+	}
+
+	return arrPayment, nil
+}
+
+func (cr *PaymentRepository) UpdateById(PaymentId int, newPayment entities.Payment) (entities.Payment, error) {
+
+	res := cr.db.Model(&entities.Payment{Model: gorm.Model{ID: uint(PaymentId)}}).Updates(entities.Payment{Name: newPayment.Name})
+
+	if res.RowsAffected == 0 {
+		return entities.Payment{}, errors.New(gorm.ErrRecordNotFound.Error())
+	}
 
 	return newPayment, nil
 }
 
-func (ur *PaymentRepository) GetAll() ([]entities.User, error) {
-	arrUser := []entities.User{}
+func (cr *PaymentRepository) DeleteById(id int) (gorm.DeletedAt, error) {
+	Payment := entities.Payment{}
 
-	if err := ur.database.Preload("Address").Find(&arrUser).Error; err != nil {
-		return nil, err
+	res := cr.db.Model(&Payment).Where("id = ?", id).Delete(&Payment)
+	if res.RowsAffected == 0 {
+		return Payment.DeletedAt, errors.New(gorm.ErrRecordNotFound.Error())
 	}
 
-	return arrUser, nil
+	return Payment.DeletedAt, nil
 }
 
-func (ur *PaymentRepository) GetById(userId int) (entities.User, error) {
-	arrUser := entities.User{}
-	// var artikel models.Artikel
+func (cr *PaymentRepository) GetAll() ([]entities.Payment, error) {
+	arrPayment := []entities.Payment{}
 
-	// Conn.Preload("Komentar").Find(&artikle)
-	result := ur.database.Preload("Address").Where("ID = ?", userId).First(&arrUser)
-	// if err := ur.database.Preload("Task").Find(&arrUser, userId).Error; err != nil {
-
-	if err := result.Error; err != nil {
-		return arrUser, err
+	res := cr.db.Model(entities.Payment{}).Find(&arrPayment)
+	if res.RowsAffected == 0 {
+		return nil, errors.New(gorm.ErrRecordNotFound.Error())
 	}
 
-	return arrUser, nil
-}
-
-func (ur *PaymentRepository) Update(userId int, newUser entities.User) (entities.User, error) {
-
-	var user entities.User
-	ur.database.First(&user, userId)
-
-	if err := ur.database.Model(&user).Updates(&newUser).Error; err != nil {
-		return user, err
-	}
-
-	return user, nil
-}
-
-func (ur *PaymentRepository) Delete(userId int) error {
-
-	var user entities.User
-
-	if err := ur.database.First(&user, userId).Error; err != nil {
-		return err
-	}
-	ur.database.Delete(&user, userId)
-	return nil
-
+	return arrPayment, nil
 }
