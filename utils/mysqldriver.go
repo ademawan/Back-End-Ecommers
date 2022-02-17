@@ -37,9 +37,9 @@ func AutoMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&entities.User{})
 	DB.AutoMigrate(&entities.Address{})
 	DB.AutoMigrate(&entities.Product{})
-	// DB.AutoMigrate(&entities.Payment{})
+	DB.AutoMigrate(&entities.Payment{})
 	// DB.AutoMigrate(&entities.Order_detail{})
-	// DB.AutoMigrate(&entities.Order{})
+	DB.AutoMigrate(&entities.Order{})
 	// DB.AutoMigrate(&entities.Cart{})
 
 }
