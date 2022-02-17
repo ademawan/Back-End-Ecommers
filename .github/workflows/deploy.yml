@@ -15,3 +15,6 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd project-1-K2
+          cd Back-End-Ecommers
+          git pull origin main
+          docker-compose down --rmi all && docker-compose up --build -d
