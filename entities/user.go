@@ -9,6 +9,6 @@ type User struct {
 	Name     string
 	Email    string `gorm:"unique"`
 	Password string
-	Status   string
+	Status   int
 	Address  Address `gorm:"ForeignKey:User_ID"`
 }

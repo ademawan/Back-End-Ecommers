@@ -2,6 +2,7 @@ package user
 
 import (
 	"Back-End-Ecommers/delivery/controllers/common"
+	"Back-End-Ecommers/delivery/middlewares"
 	"Back-End-Ecommers/entities"
 	"Back-End-Ecommers/repository/user"
 	"net/http"
@@ -22,9 +23,16 @@ func New(repository user.User) *UserController {
 
 func (ac *UserController) Get() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "invalid input", nil))
+		}
+
 		res, err := ac.repo.Get()
 
-		if err != nil {
+		if err != nil || email != "admin@admin.com" && password != "admin" {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
 		}
 

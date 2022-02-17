@@ -11,12 +11,12 @@ type InsertUserRequestFormat struct {
 	Name     string `json:"name" form:"name"`
 	Email    string `json:"email" form:"email"`
 	Password string `json:"password" form:"password"`
-	Status   string `json:"status" form:"status"`
+	Status   int    `json:"status" form:"status"`
 }
 type UpdateUserRequestFormat struct {
 	Name   string `json:"name" form:"name"`
 	Email  string `json:"email" form:"email"`
-	Status string `json:"status" form:"status"`
+	Status int    `json:"status" form:"status"`
 }
 
 //-----------------------------------------------------
