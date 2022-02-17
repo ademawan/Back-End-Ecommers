@@ -4,6 +4,7 @@ import (
 	config "Back-End-Ecommers/configs"
 	addressController "Back-End-Ecommers/delivery/controllers/address"
 	authController "Back-End-Ecommers/delivery/controllers/auth"
+	cartController "Back-End-Ecommers/delivery/controllers/cart"
 	orderController "Back-End-Ecommers/delivery/controllers/order"
 	paymentController "Back-End-Ecommers/delivery/controllers/payment"
 	productController "Back-End-Ecommers/delivery/controllers/product"
@@ -12,6 +13,7 @@ import (
 	"Back-End-Ecommers/dummy"
 	addressRepo "Back-End-Ecommers/repository/address"
 	authRepo "Back-End-Ecommers/repository/auth"
+	cartRepo "Back-End-Ecommers/repository/cart"
 	orderRepo "Back-End-Ecommers/repository/order"
 	paymentRepo "Back-End-Ecommers/repository/payment"
 	productRepo "Back-End-Ecommers/repository/product"
@@ -29,6 +31,7 @@ func main() {
 
 	//REPOSITORY-DATABASE
 	userRepo := userRepo.New(db)
+	cartRepo := cartRepo.New(db)
 	orderRepo := orderRepo.New(db)
 	productRepo := productRepo.New(db)
 	addressRepo := addressRepo.New(db)
@@ -36,6 +39,7 @@ func main() {
 	paymentRepo := paymentRepo.New(db)
 
 	//CONTROLLER
+	cartController := cartController.New(cartRepo)
 	orderController := orderController.New(orderRepo)
 	userController := userController.New(userRepo)
 	productController := productController.New(productRepo)
@@ -57,6 +61,10 @@ func main() {
 	route.PaymentMethodPath(
 		e,
 		paymentController,
+	)
+	route.CartPath(
+		e,
+		cartController,
 	)
 
 	dummy.Dummy()

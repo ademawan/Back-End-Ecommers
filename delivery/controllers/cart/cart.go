@@ -67,11 +67,9 @@ func (cc *CartController) GetByUserId() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, ResponseGetCart{
-			ID:          res.ID,
-			User_ID:     res.User_ID,
-			Product_ID:  res.Product_ID,
-			Qty:         res.Qty,
-			Total_price: res.Qty * res.Product.Price,
+			Code:    http.StatusOK,
+			Message: "Success Get Carts by user ID",
+			Data:    res,
 		})
 	}
 }
