@@ -4,10 +4,12 @@ import (
 	config "Back-End-Ecommers/configs"
 	addressController "Back-End-Ecommers/delivery/controllers/address"
 	authController "Back-End-Ecommers/delivery/controllers/auth"
+	productController "Back-End-Ecommers/delivery/controllers/product"
 	userController "Back-End-Ecommers/delivery/controllers/user"
 	"Back-End-Ecommers/delivery/route"
-	AddressRepo "Back-End-Ecommers/repository/address"
+	addressRepo "Back-End-Ecommers/repository/address"
 	authRepo "Back-End-Ecommers/repository/auth"
+	productRepo "Back-End-Ecommers/repository/product"
 	userRepo "Back-End-Ecommers/repository/user"
 	"Back-End-Ecommers/utils"
 	"fmt"
@@ -22,16 +24,18 @@ func main() {
 
 	//REPOSITORY-DATABASE
 	userRepo := userRepo.New(db)
-	addressRepo := AddressRepo.New(db)
+	productRepo := productRepo.New(db)
+	addressRepo := addressRepo.New(db)
 	authRepo := authRepo.New(db)
 
 	//CONTROLLER
+	productController := productController.New(productRepo)
 	userController := userController.New(userRepo)
 	addressController := addressController.New(addressRepo)
 	authController := authController.New(authRepo)
 	e := echo.New()
 
-	route.RegisterPath(e, userController, addressController, authController)
+	route.RegisterPath(e, userController, addressController, authController, productController)
 
 	log.Fatal(e.Start(fmt.Sprintf(":%d", config.Port)))
 

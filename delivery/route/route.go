@@ -3,6 +3,7 @@ package route
 import (
 	"Back-End-Ecommers/delivery/controllers/address"
 	"Back-End-Ecommers/delivery/controllers/auth"
+	"Back-End-Ecommers/delivery/controllers/product"
 	"Back-End-Ecommers/delivery/controllers/user"
 	"Back-End-Ecommers/delivery/middlewares"
 
@@ -10,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressController, aa *auth.AuthController) {
+func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressController, aa *auth.AuthController, pc *product.ProductController) {
 
 	//=========================================================
 	//LOGGER
@@ -39,4 +40,9 @@ func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressCont
 	ea.PUT("address/:id", ac.Update(), middlewares.JwtMiddleware())
 	ea.DELETE("address/:id", ac.Delete(), middlewares.JwtMiddleware())
 
+	ea.POST("products", pc.Register(), middlewares.JwtMiddleware())
+	ea.GET("products", pc.Get())
+	ea.GET("products/:id", pc.GetById(), middlewares.JwtMiddleware())
+	ea.PUT("products/:id", pc.Update(), middlewares.JwtMiddleware())
+	ea.DELETE("products/:id", pc.Delete(), middlewares.JwtMiddleware())
 }

@@ -115,9 +115,9 @@ func TestDeleteById(t *testing.T) {
 			t.Fatal()
 		}
 
-		res, err := repo.DeleteById(1)
+		err := repo.Delete(1)
 		assert.Nil(t, err)
-		assert.Equal(t, true, res.Valid)
+		// assert.Equal(t, true, res.Valid)
 
 	})
 
@@ -127,7 +127,7 @@ func TestDeleteById(t *testing.T) {
 			t.Fatal()
 		}
 
-		_, err := repo.DeleteById(10)
+		err := repo.Delete(10)
 		assert.NotNil(t, err)
 	})
 }
@@ -152,7 +152,7 @@ func TestGetAll(t *testing.T) {
 	})
 
 	t.Run("fail run Get All", func(t *testing.T) {
-		if _, err := repo.DeleteById(1); err != nil {
+		if err := repo.Delete(1); err != nil {
 			t.Fatal()
 		}
 		res, err := repo.GetAll()

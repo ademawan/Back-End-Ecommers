@@ -47,15 +47,15 @@ func (cr *CategoryRepository) UpdateById(categoryId int, newCategory entities.Ca
 	return newCategory, nil
 }
 
-func (cr *CategoryRepository) DeleteById(id int) (gorm.DeletedAt, error) {
+func (cr *CategoryRepository) Delete(id int) error {
 	category := entities.Category{}
 
 	res := cr.db.Model(&category).Where("id = ?", id).Delete(&category)
 	if res.RowsAffected == 0 {
-		return category.DeletedAt, errors.New(gorm.ErrRecordNotFound.Error())
+		return errors.New(gorm.ErrRecordNotFound.Error())
 	}
 
-	return category.DeletedAt, nil
+	return nil
 }
 
 func (cr *CategoryRepository) GetAll() ([]entities.Category, error) {

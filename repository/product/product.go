@@ -46,15 +46,15 @@ func (cr *ProductRepository) Update(productId int, newProduct entities.Product) 
 	return newProduct, nil
 }
 
-func (cr *ProductRepository) Delete(id int) (gorm.DeletedAt, error) {
+func (cr *ProductRepository) Delete(id int) error {
 	product := entities.Product{}
 
 	res := cr.db.Model(&product).Where("id = ?", id).Delete(&product)
 	if res.RowsAffected == 0 {
-		return product.DeletedAt, errors.New(gorm.ErrRecordNotFound.Error())
+		return errors.New(gorm.ErrRecordNotFound.Error())
 	}
 
-	return product.DeletedAt, nil
+	return nil
 }
 
 func (cr *ProductRepository) GetAll() ([]entities.Product, error) {

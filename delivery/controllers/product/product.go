@@ -87,7 +87,7 @@ func (ac *ProductController) Delete() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		productId, _ := strconv.Atoi(c.Param("id"))
 
-		_, err := ac.repo.Delete(productId)
+		err := ac.repo.Delete(productId)
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
