@@ -10,6 +10,6 @@ type Product struct {
 	Price       int
 	Qty         int
 	Description string
-	Category_ID int `gorm:"column:category_id" json:"category_id"`
-	Category    Category
+	Category_ID int
+	Category    Category `gorm:"foreignKey:Category_ID"`
 }

@@ -6,21 +6,34 @@ import (
 	"Back-End-Ecommers/entities"
 	"Back-End-Ecommers/repository/category"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
-type CategoryrController struct {
+type CategoryController struct {
 	repo category.Category
 }
 
-func New(repository category.Category) *CategoryrController {
-	return &CategoryrController{
+func New(repository category.Category) *CategoryController {
+	return &CategoryController{
 		repo: repository,
 	}
 }
 
-func (cc *CategoryrController) Create() echo.HandlerFunc {
+func (ac *CategoryController) Get() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		res, err := ac.repo.GetAll()
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
+		}
+
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Get All Product", res))
+	}
+}
+
+func (cc *CategoryController) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		requestFormat := RequestCategory{}
 
@@ -41,7 +54,7 @@ func (cc *CategoryrController) Create() echo.HandlerFunc {
 	}
 }
 
-func (cc *CategoryrController) GetById() echo.HandlerFunc {
+func (cc *CategoryController) GetById() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
 		categoryid := int(middlewares.ExtractTokenId(c))
@@ -53,5 +66,37 @@ func (cc *CategoryrController) GetById() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Get Category By Id", res))
+	}
+}
+func (ac *CategoryController) Update() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var newCategory = UpdateCategoryRequestFormat{}
+		productId, _ := strconv.Atoi(c.Param("id"))
+
+		if err := c.Bind(&newCategory); err != nil {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input", nil))
+		}
+
+		res, err := ac.repo.Update(productId, entities.Category{Name: newCategory.Name})
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
+		}
+
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Update Product", res))
+	}
+}
+
+func (ac *CategoryController) Delete() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		productId, _ := strconv.Atoi(c.Param("id"))
+
+		_, err := ac.repo.Delete(productId)
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
+		}
+
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Delete Product", nil))
 	}
 }

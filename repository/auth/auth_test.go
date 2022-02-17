@@ -19,7 +19,7 @@ func TestLogin(t *testing.T) {
 
 	t.Run("success run login", func(t *testing.T) {
 		// mockAddress := entities.Address{Street: "jalanbersama", City: "surabaya", Region: "Indonesia", Postal_code: "123445"}
-		mockUser := entities.User{Name: "test", Email: "test", Password: "test", Status: "admin"}
+		mockUser := entities.User{Name: "test", Email: "test", Password: "test", Status: 1}
 		_, err := user.New(db).Register(mockUser)
 		if err != nil {
 			t.Fail()

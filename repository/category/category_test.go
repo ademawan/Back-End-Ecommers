@@ -84,7 +84,7 @@ func TestUpdateById(t *testing.T) {
 
 		mockCategoryUpdate := entities.Category{Name: "Model Kit"}
 
-		res, err := repo.UpdateById(1, mockCategoryUpdate)
+		res, err := repo.Update(1, mockCategoryUpdate)
 		assert.Nil(t, err)
 		assert.Equal(t, "Model Kit", res.Name)
 
@@ -102,7 +102,7 @@ func TestUpdateById(t *testing.T) {
 	})
 }
 
-func TestDeleteById(t *testing.T) {
+func TestDelete(t *testing.T) {
 	config := config.GetConfig()
 	db := utils.InitDB(config)
 	repo := New(db)
@@ -115,7 +115,7 @@ func TestDeleteById(t *testing.T) {
 			t.Fatal()
 		}
 
-		res, err := repo.DeleteById(1)
+		res, err := repo.Delete(1)
 		assert.Nil(t, err)
 		assert.Equal(t, true, res.Valid)
 
@@ -127,7 +127,7 @@ func TestDeleteById(t *testing.T) {
 			t.Fatal()
 		}
 
-		_, err := repo.DeleteById(10)
+		_, err := repo.Delete(10)
 		assert.NotNil(t, err)
 	})
 }
@@ -152,7 +152,7 @@ func TestGetAll(t *testing.T) {
 	})
 
 	t.Run("fail run Get All", func(t *testing.T) {
-		if _, err := repo.DeleteById(1); err != nil {
+		if _, err := repo.Delete(1); err != nil {
 			t.Fatal()
 		}
 		res, err := repo.GetAll()

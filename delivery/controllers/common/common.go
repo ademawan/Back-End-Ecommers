@@ -1,6 +1,8 @@
 package common
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type Response struct {
 	Code    interface{} `json:"code"`

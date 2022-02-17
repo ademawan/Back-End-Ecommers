@@ -36,7 +36,7 @@ func (cr *CategoryRepository) GetById(categoryId int) (entities.Category, error)
 	return arrCategory, nil
 }
 
-func (cr *CategoryRepository) UpdateById(categoryId int, newCategory entities.Category) (entities.Category, error) {
+func (cr *CategoryRepository) Update(categoryId int, newCategory entities.Category) (entities.Category, error) {
 
 	res := cr.db.Model(&entities.Category{Model: gorm.Model{ID: uint(categoryId)}}).Updates(entities.Category{Name: newCategory.Name})
 
@@ -47,7 +47,7 @@ func (cr *CategoryRepository) UpdateById(categoryId int, newCategory entities.Ca
 	return newCategory, nil
 }
 
-func (cr *CategoryRepository) DeleteById(id int) (gorm.DeletedAt, error) {
+func (cr *CategoryRepository) Delete(id int) (gorm.DeletedAt, error) {
 	category := entities.Category{}
 
 	res := cr.db.Model(&category).Where("id = ?", id).Delete(&category)
