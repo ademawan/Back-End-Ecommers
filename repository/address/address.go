@@ -30,7 +30,7 @@ func (tr *AddressRepository) Get() ([]entities.Address, error) {
 func (tr *AddressRepository) GetById(addressId int) (entities.Address, error) {
 	arrAddress := entities.Address{}
 
-	if err := tr.database.Preload("Task").Find(&arrAddress, addressId).Error; err != nil {
+	if err := tr.database.Preload("Address").Find(&arrAddress, addressId).Error; err != nil {
 		return arrAddress, err
 	}
 
