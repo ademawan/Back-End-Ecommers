@@ -7,6 +7,7 @@ import (
 	productController "Back-End-Ecommers/delivery/controllers/product"
 	userController "Back-End-Ecommers/delivery/controllers/user"
 	"Back-End-Ecommers/delivery/route"
+	"Back-End-Ecommers/dummy"
 	addressRepo "Back-End-Ecommers/repository/address"
 	authRepo "Back-End-Ecommers/repository/auth"
 	productRepo "Back-End-Ecommers/repository/product"
@@ -36,6 +37,8 @@ func main() {
 	e := echo.New()
 
 	route.RegisterPath(e, userController, addressController, authController, productController)
+
+	dummy.Dummy()
 
 	log.Fatal(e.Start(fmt.Sprintf(":%d", config.Port)))
 
