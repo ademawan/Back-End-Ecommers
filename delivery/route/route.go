@@ -13,6 +13,9 @@ import (
 func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressController, aa *auth.AuthController) {
 
 	//=========================================================
+
+	//CORS
+	e.Use(middleware.CORS())
 	//LOGGER
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
