@@ -1,10 +1,8 @@
 package configs
 
 import (
+	"os"
 	"sync"
-
-	"github.com/labstack/gommon/log"
-	"github.com/spf13/viper"
 )
 
 type AppConfig struct {
@@ -35,28 +33,41 @@ func GetConfig() *AppConfig {
 func initConfig() *AppConfig {
 	var defaultConfig AppConfig
 	defaultConfig.Port = 8000
-	defaultConfig.Database.Driver = "mysql"
-	defaultConfig.Database.Name = "project_ecommerce_k2"
-	defaultConfig.Database.Address = "localhost"
+	defaultConfig.Database.Driver = getEnv("DRIVER", "mysql")
+	defaultConfig.Database.Name = getEnv("NAME", "project_ecommerce_k2")
+	defaultConfig.Database.Address = getEnv("ADDRESS", "localhost")
 	defaultConfig.Database.Port = 3306
-	defaultConfig.Database.Username = "root"
-	defaultConfig.Database.Password = "root"
+	defaultConfig.Database.Username = getEnv("USERNAME", "root")
+	defaultConfig.Database.Password = getEnv("PASSWORD", "root")
 
-	viper.SetConfigType("yaml")
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./configs")
-	// log.Info(viper.ReadInConfig())
-	if err := viper.ReadInConfig(); err != nil {
-		// fmt.Println("kok mlaku")
-		log.Info("error in open file")
-		return &defaultConfig
+	// viper.SetConfigType("yaml")
+	// viper.SetConfigName("config")
+	// viper.AddConfigPath("./configs")
+	// // log.Info(viper.ReadInConfig())
+	// if err := viper.ReadInConfig(); err != nil {
+	// 	// fmt.Println("kok mlaku")
+	// 	log.Info("error in open file")
+	// 	return &defaultConfig
+	// }
+
+	// var finalConfig AppConfig
+
+	// if err := viper.Unmarshal(&finalConfig); err != nil {
+	// 	log.Info("error in extract external config, must use default config")
+	// 	return &defaultConfig
+	// }
+
+	// fmt.Println(defaultConfig)
+
+	return &defaultConfig
+}
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		// fmt.Println(value)
+		return value
 	}
 
-	var finalConfig AppConfig
+	return fallback
 
-	if err := viper.Unmarshal(&finalConfig); err != nil {
-		log.Info("error in extract external config, must use default config")
-		return &defaultConfig
-	}
-	return &finalConfig
 }
