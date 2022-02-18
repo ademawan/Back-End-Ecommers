@@ -94,8 +94,8 @@ func Dummy() {
 
 	//order dummy
 	mockCart1 := entities.Cart{Product_ID: 1, Qty: 2}
-	repoCart.Create(1, mockCart1)
+	repoCart.Create(2, mockCart1)
 	mockCart2 := entities.Cart{Product_ID: 2, Qty: 1}
-	repoCart.Create(1, mockCart2)
+	repoCart.Create(2, mockCart2)
 
 }
