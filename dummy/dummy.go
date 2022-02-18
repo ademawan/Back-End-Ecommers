@@ -71,12 +71,16 @@ func Dummy() {
 	repoProduct.Create(mockProduct2)
 	mockProduct3 := entities.Product{Name: "product3", Price: 30000, Qty: 30, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 3}
 	repoProduct.Create(mockProduct3)
-	mockProduct4 := entities.Product{Name: "product4", Price: 40000, Qty: 40, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 1}
+	mockProduct4 := entities.Product{Name: "product4", Price: 40000, Qty: 40, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 4}
 	repoProduct.Create(mockProduct4)
-	mockProduct5 := entities.Product{Name: "product5", Price: 40000, Qty: 40, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 3}
+	mockProduct5 := entities.Product{Name: "product5", Price: 40000, Qty: 40, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 1}
 	repoProduct.Create(mockProduct5)
-	mockProduct6 := entities.Product{Name: "product6", Price: 60000, Qty: 60, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 1}
+	mockProduct6 := entities.Product{Name: "product6", Price: 60000, Qty: 60, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 2}
 	repoProduct.Create(mockProduct6)
+	mockProduct7 := entities.Product{Name: "product7", Price: 20000, Qty: 35, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 3}
+	repoProduct.Create(mockProduct7)
+	mockProduct8 := entities.Product{Name: "product8", Price: 80000, Qty: 20, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 4}
+	repoProduct.Create(mockProduct8)
 
 	//payment dummy
 	mockPayment1 := entities.Payment{Name: "payment1"}
@@ -92,7 +96,7 @@ func Dummy() {
 	mockOrder1 := entities.Order{Payment_ID: 1}
 	repoOrder.Create(1, mockOrder1)
 
-	//order dummy
+	//cart dummy
 	mockCart1 := entities.Cart{Product_ID: 1, Qty: 2}
 	repoCart.Create(2, mockCart1)
 	mockCart2 := entities.Cart{Product_ID: 2, Qty: 1}
