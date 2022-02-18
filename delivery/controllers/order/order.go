@@ -56,7 +56,7 @@ func (tc *OrderController) Create() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input", nil))
 		}
 
-		res, err := tc.repo.Create(userId, entities.Order{Payment_ID: order.Payment_ID})
+		res, err := tc.repo.Create(userId, order.Payment_ID)
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))

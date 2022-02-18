@@ -41,10 +41,39 @@ func (ur *OrderRepository) GetById(orderId int) (entities.Order, error) {
 	return arrOrder, nil
 }
 
-func (ur *OrderRepository) Create(userId int, u entities.Order) (entities.Order, error) {
-	order := entities.Order{User_ID: userId, Payment_ID: u.Payment_ID}
+func (ur *OrderRepository) Create(userId, paymentId int) (entities.Order, error) {
 
-	if err := ur.database.Create(&order).Error; err != nil {
+	ur.database.Transaction(func(tx *gorm.DB) error {
+
+		order := entities.Order{User_ID: userId, Payment_ID: paymentId}
+		orderRes := entities.Order{}
+		arrCart := []entities.Cart{}
+
+		if err := tx.Find(&arrCart).Error; err != nil {
+			return err
+		}
+
+		// do some database operations in the transaction (use 'tx' from this point, not 'db')
+		if err := tx.Model(&orderRes).Create(&order).Error; err != nil {
+			// return any error will rollback
+			return err
+		}
+		for i := 0; i < len(arrCart); i++ {
+
+			if err := tx.Model(&entities.OrderDetail{}).Create(arrCart[i]).Error; err != nil {
+				return err
+			}
+		}
+
+		// return nil will commit the whole transaction
+		return nil
+	})
+
+	cart := []entities.Cart{}
+
+	ur.database.Preload("Product").Where("name <> ?", "jinzhu").Find(&cart)
+
+	if err := ur.database.Model(&order).Create(&order).Error; err != nil {
 		return u, err
 	}
 
