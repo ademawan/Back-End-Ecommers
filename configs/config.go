@@ -57,13 +57,13 @@ func initConfig() *AppConfig {
 	// 	return &defaultConfig
 	// }
 
-	// fmt.Println(defaultConfig)
+	// // fmt.Println(defaultConfig)
 
 	return &defaultConfig
 }
 
 func getEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
+	if value, ok := os.LookupEnv(key); ok && value != "user" {
 		// fmt.Println(value)
 		return value
 	}
