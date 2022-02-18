@@ -1,6 +1,7 @@
 package user
 
 import (
+	"Back-End-Ecommers/delivery/middlewares"
 	"Back-End-Ecommers/entities"
 
 	"gorm.io/gorm"
@@ -17,6 +18,9 @@ func New(db *gorm.DB) *UserRepository {
 }
 
 func (ur *UserRepository) Register(u entities.User) (entities.User, error) {
+
+	u.Password, _ = middlewares.HashPassword(u.Password)
+
 	if err := ur.database.Create(&u).Error; err != nil {
 		return u, err
 	}

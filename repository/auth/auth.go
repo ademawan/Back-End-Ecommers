@@ -1,7 +1,9 @@
 package auth
 
 import (
+	"Back-End-Ecommers/delivery/middlewares"
 	"Back-End-Ecommers/entities"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -18,8 +20,13 @@ func New(db *gorm.DB) *AuthDb {
 
 func (ad *AuthDb) Login(email, password string) (entities.User, error) {
 	user := entities.User{}
-	if err := ad.db.Model(&user).Where("email = ? AND password = ?", email, password).First(&user).Error; err != nil {
-		return user, err
+
+	ad.db.Model(&user).Where("email = ?", email).First(&user)
+
+	match := middlewares.CheckPasswordHash(password, user.Password)
+
+	if !match {
+		return entities.User{}, errors.New("incorrect password")
 	}
 
 	return user, nil
