@@ -38,16 +38,15 @@ func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressCont
 	e.PUT("users/me", uc.Update(), middlewares.JwtMiddleware())
 	e.DELETE("users/me", uc.Delete(), middlewares.JwtMiddleware())
 
-	//===========================================================
 	//ROUTE ADDRESS
 	ea := e.Group("")
-
 	ea.POST("address", ac.Register(), middlewares.JwtMiddleware())
 	ea.GET("address", ac.Get())
 	ea.GET("address/:id", ac.GetById(), middlewares.JwtMiddleware())
 	ea.PUT("address/:id", ac.Update(), middlewares.JwtMiddleware())
 	ea.DELETE("address/:id", ac.Delete(), middlewares.JwtMiddleware())
 
+	//ROUTE ADDRESS
 	ea.POST("products", pc.Register(), middlewares.JwtMiddleware())
 	ea.GET("products", pc.Get())
 	ea.GET("products/:id", pc.GetById(), middlewares.JwtMiddleware())

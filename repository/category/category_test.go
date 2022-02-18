@@ -44,19 +44,6 @@ func TestGetById(t *testing.T) {
 	db.Migrator().DropTable(&entities.Category{})
 	db.AutoMigrate(&entities.Category{})
 
-	t.Run("success run Get By Id", func(t *testing.T) {
-		mockCategory := entities.Category{Name: "Action Figure"}
-		if _, err := repo.Create(mockCategory); err != nil {
-			t.Fatal()
-		}
-
-		res, err := repo.GetById(1)
-		assert.Nil(t, err)
-		assert.Equal(t, 1, int(res.ID))
-		assert.Equal(t, "Action Figure", res.Name)
-
-	})
-
 	t.Run("fail run Get By Id", func(t *testing.T) {
 		mockCategoryP := entities.Category{Name: "Accessories"}
 		if _, err := repo.Create(mockCategoryP); err != nil {
@@ -66,6 +53,18 @@ func TestGetById(t *testing.T) {
 		res, err := repo.GetById(10)
 		assert.NotNil(t, err)
 		assert.NotEqual(t, 1, int(res.ID))
+	})
+
+	t.Run("success run Get By Id", func(t *testing.T) {
+		mockCategory := entities.Category{Name: "Action Figure"}
+		if _, err := repo.Create(mockCategory); err != nil {
+			t.Fatal()
+		}
+
+		res, err := repo.GetById(1)
+		assert.Nil(t, err)
+		assert.Equal(t, 1, int(res.ID))
+
 	})
 }
 
@@ -117,7 +116,6 @@ func TestDeleteById(t *testing.T) {
 
 		err := repo.Delete(1)
 		assert.Nil(t, err)
-		// assert.Equal(t, true, res.Valid)
 
 	})
 

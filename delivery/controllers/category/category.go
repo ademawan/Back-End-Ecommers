@@ -23,6 +23,12 @@ func New(repository category.Category) *CategoryController {
 func (cc *CategoryController) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		requestFormat := RequestCategory{}
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "sorry you are not an admin", nil))
+		}
 
 		if err := c.Bind(&requestFormat); err != nil || requestFormat.Name == "" {
 			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "Invalid in Input Data Category", nil))
@@ -53,5 +59,64 @@ func (cc *CategoryController) GetById() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Get Category By Id", res))
+	}
+}
+
+func (cc *CategoryrController) GetAll() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		res, err := cc.repo.GetAll()
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
+		}
+
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Get All Category", res))
+	}
+}
+
+func (cc *CategoryrController) Update() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "sorry you are not an admin", nil))
+		}
+
+		categoryId, _ := strconv.Atoi(c.Param("id"))
+
+		newCategory := RequestCategory{}
+
+		if err := c.Bind(&newCategory); err != nil || newCategory.Name == "" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input", nil))
+		}
+
+		res, err := cc.repo.Update(categoryId, entities.Category{Name: newCategory.Name})
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
+		}
+
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Update Category", res))
+	}
+}
+
+func (cc *CategoryrController) Delete() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "sorry you are not an admin", nil))
+		}
+		categoryId, _ := strconv.Atoi(c.Param("id"))
+
+		_, err := cc.repo.Delete(categoryId)
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
+		}
+
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Delete Category", nil))
 	}
 }
