@@ -1,4 +1,5 @@
 package product
+<<<<<<< HEAD
 
 import (
 	"Back-End-Ecommers/delivery/controllers/common"
@@ -96,3 +97,5 @@ func (ac *ProductController) Delete() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Delete Product", nil))
 	}
 }
+=======
+>>>>>>> c476cb4 (1)
