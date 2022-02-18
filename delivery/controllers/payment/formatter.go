@@ -1,4 +1,4 @@
-package category
+package payment
 
 import "time"
 

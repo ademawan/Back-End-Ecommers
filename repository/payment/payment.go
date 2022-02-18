@@ -47,10 +47,10 @@ func (cr *PaymentRepository) UpdateById(PaymentId int, newPayment entities.Payme
 	return newPayment, nil
 }
 
-func (cr *PaymentRepository) DeleteById(id int) (gorm.DeletedAt, error) {
+func (cr *PaymentRepository) DeleteById(PaymentId int) (gorm.DeletedAt, error) {
 	Payment := entities.Payment{}
 
-	res := cr.db.Model(&Payment).Where("id = ?", id).Delete(&Payment)
+	res := cr.db.Model(&Payment).Where("id = ?", PaymentId).Delete(&Payment)
 	if res.RowsAffected == 0 {
 		return Payment.DeletedAt, errors.New(gorm.ErrRecordNotFound.Error())
 	}

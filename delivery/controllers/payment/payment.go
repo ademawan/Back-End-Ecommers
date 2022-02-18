@@ -1,4 +1,4 @@
-package category
+package payment
 
 import (
 	"Back-End-Ecommers/delivery/controllers/common"
@@ -22,6 +22,13 @@ func New(repository payment.Payment) *PaymentController {
 
 func (pc *PaymentController) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "invalid input", nil))
+		}
+
 		requestFormat := RequestPayment{}
 
 		if err := c.Bind(&requestFormat); err != nil || requestFormat.Name == "" {
@@ -78,21 +85,49 @@ func (pc *PaymentController) GetById() echo.HandlerFunc {
 	}
 }
 
-func (ac *PaymentController) Update() echo.HandlerFunc {
+func (ac *PaymentController) UpdateById() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		userId := int(middlewares.ExtractTokenId(c))
-		var newUser = UpdateUserRequestFormat{}
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
 
-		if err := c.Bind(&newUser); err != nil {
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "invalid input", nil))
+		}
+
+		paymentId := int(middlewares.ExtractTokenId(c))
+		var newPayment = UpdateUserRequestFormat{}
+
+		if err := c.Bind(&newPayment); err != nil {
 			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input", nil))
 		}
 
-		res, err := ac.repo.Update(userId, entities.Payment{Name: newUser.Name})
+		res, err := ac.repo.UpdateById(paymentId, entities.Payment{Name: newPayment.Name})
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
 		}
 
 		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Update User", res))
+	}
+}
+
+func (ac *PaymentController) DeleteById() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "invalid input", nil))
+		}
+
+		paymentId := int(middlewares.ExtractTokenId(c))
+
+		res, err := ac.repo.DeleteById(paymentId)
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
+		}
+
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Delete User", res))
 	}
 }
