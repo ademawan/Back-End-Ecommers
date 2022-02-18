@@ -6,5 +6,6 @@ import (
 
 type Category struct {
 	gorm.Model
-	Name string
+	Name    string
+	Product []Product `gorm:"ForeignKey:Category_ID"`
 }

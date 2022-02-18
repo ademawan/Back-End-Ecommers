@@ -23,7 +23,8 @@ func New(repository order.Order) *OrderController {
 
 func (tc *OrderController) Get() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		res, err := tc.repo.Get()
+		userId := int(middlewares.ExtractTokenId(c))
+		res, err := tc.repo.Get(userId)
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))

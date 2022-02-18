@@ -2,6 +2,8 @@ package order
 
 import (
 	"Back-End-Ecommers/entities"
+	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -16,10 +18,10 @@ func New(db *gorm.DB) *OrderRepository {
 	}
 }
 
-func (ur *OrderRepository) Get() ([]entities.Order, error) {
+func (ur *OrderRepository) Get(userId int) ([]entities.Order, error) {
 	arrOrder := []entities.Order{}
 
-	if err := ur.database.Preload("User").Preload("Payment").Preload("User.Address").Find(&arrOrder).Error; err != nil {
+	if err := ur.database.Preload("User").Preload("Payment").Preload("User.Address").Preload("OrderDetail").Where("user_id = ?", userId).Find(&arrOrder).Error; err != nil {
 		return nil, err
 	}
 
@@ -28,11 +30,8 @@ func (ur *OrderRepository) Get() ([]entities.Order, error) {
 
 func (ur *OrderRepository) GetById(orderId int) (entities.Order, error) {
 	arrOrder := entities.Order{}
-	// var artikel models.Artikel
 
-	// Conn.Preload("Komentar").Find(&artikle)
-	result := ur.database.Preload("User").Preload("Payment").Preload("User.Address").Where("ID = ?", orderId).First(&arrOrder)
-	// if err := ur.database.Preload("Task").Find(&arrOrder, orderId).Error; err != nil {
+	result := ur.database.Preload("User").Preload("Payment").Preload("User.Address").Preload("OrderDetail").Where("ID = ?", orderId).First(&arrOrder)
 
 	if err := result.Error; err != nil {
 		return arrOrder, err
@@ -42,42 +41,56 @@ func (ur *OrderRepository) GetById(orderId int) (entities.Order, error) {
 }
 
 func (ur *OrderRepository) Create(userId, paymentId int) (entities.Order, error) {
-
-	ur.database.Transaction(func(tx *gorm.DB) error {
+	var orderRes = entities.Order{}
+	err := ur.database.Transaction(func(tx *gorm.DB) error {
 
 		order := entities.Order{User_ID: userId, Payment_ID: paymentId}
-		orderRes := entities.Order{}
 		arrCart := []entities.Cart{}
 
-		if err := tx.Find(&arrCart).Error; err != nil {
+		if err := tx.Where("user_id = ?", userId).Find(&arrCart).Error; err != nil {
 			return err
 		}
 
 		// do some database operations in the transaction (use 'tx' from this point, not 'db')
-		if err := tx.Model(&orderRes).Create(&order).Error; err != nil {
+		if err := tx.Model(&orderRes).Preload("User").Preload("Payment").Preload("User.Address").Preload("OrderDetail").Create(&order).Error; err != nil {
 			// return any error will rollback
 			return err
 		}
 		for i := 0; i < len(arrCart); i++ {
+			orderdetail := entities.OrderDetail{Order_ID: int(order.ID), Product_ID: arrCart[i].Product_ID, Qty: arrCart[i].Qty}
+			fmt.Println(orderdetail)
 
-			if err := tx.Model(&entities.OrderDetail{}).Create(arrCart[i]).Error; err != nil {
+			//cek Qty product
+			product := entities.Product{}
+			if err := tx.Model(entities.Product{}).Where("ID = ?", arrCart[i].Product_ID).First(&product).Error; err != nil {
+				return err
+			}
+
+			if product.Qty-arrCart[i].Qty < 0 {
+				return errors.New("stock di gudang kurang broo")
+			}
+			newQty := product.Qty - arrCart[i].Qty
+
+			if err := tx.Model(&entities.Product{}).Where("ID = ?", arrCart[i].Product_ID).Update("qty", newQty).Error; err != nil {
+				return err
+			}
+
+			if err := tx.Model(&entities.OrderDetail{}).Create(&orderdetail).Error; err != nil {
 				return err
 			}
 		}
+		tx.Where("user_id = ?", userId).Delete(&entities.Cart{})
+		orderRes = order
 
 		// return nil will commit the whole transaction
 		return nil
 	})
 
-	cart := []entities.Cart{}
-
-	ur.database.Preload("Product").Where("name <> ?", "jinzhu").Find(&cart)
-
-	if err := ur.database.Model(&order).Create(&order).Error; err != nil {
-		return u, err
+	if err != nil {
+		return orderRes, err
 	}
 
-	return u, nil
+	return orderRes, nil
 }
 
 func (ur *OrderRepository) Update(orderId int, newOrder entities.Order) (entities.Order, error) {

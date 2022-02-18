@@ -11,4 +11,6 @@ type Order struct {
 	User       User
 	Payment_ID int `gorm:"column:payment_id" json:"payment_id"`
 	Payment    Payment
+
+	OrderDetail []OrderDetail `gorm:"ForeignKey:Order_ID"`
 }

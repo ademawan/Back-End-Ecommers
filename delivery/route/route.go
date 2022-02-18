@@ -4,6 +4,7 @@ import (
 	"Back-End-Ecommers/delivery/controllers/address"
 	"Back-End-Ecommers/delivery/controllers/auth"
 	"Back-End-Ecommers/delivery/controllers/cart"
+	"Back-End-Ecommers/delivery/controllers/category"
 	"Back-End-Ecommers/delivery/controllers/order"
 	"Back-End-Ecommers/delivery/controllers/payment"
 	"Back-End-Ecommers/delivery/controllers/product"
@@ -97,5 +98,23 @@ func CartPath(e *echo.Echo, cc *cart.CartController) {
 	e.GET("carts", cc.GetByUserId(), middlewares.JwtMiddleware())
 	e.PUT("cart/:id", cc.Update(), middlewares.JwtMiddleware())
 	e.DELETE("cart/:id", cc.Delete(), middlewares.JwtMiddleware())
+
+}
+func CategoryPath(e *echo.Echo, cc *category.CategoryController) {
+
+	//CORS
+	e.Use(middleware.CORS())
+
+	//LOGGER
+	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}",
+	}))
+
+	//ROUTE PAYMENT
+	e.POST("category", cc.Create(), middlewares.JwtMiddleware())
+	e.GET("category/:id", cc.GetById(), middlewares.JwtMiddleware())
+	// e.PUT("cart/:id", cc.Update(), middlewares.JwtMiddleware())
+	// e.DELETE("cart/:id", cc.Delete(), middlewares.JwtMiddleware())
 
 }

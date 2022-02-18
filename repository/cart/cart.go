@@ -29,7 +29,7 @@ func (cr *CartRepository) Create(user_id int, newCart entities.Cart) (entities.C
 func (cr *CartRepository) GetByUserId(user_id int) ([]entities.Cart, error) {
 	arrCart := []entities.Cart{}
 
-	res := cr.db.Preload("User").Preload("User.Address").Preload("Product").Where("user_id = ?", user_id).First(&arrCart)
+	res := cr.db.Preload("User").Preload("User.Address").Preload("Product").Preload("Product.Category").Where("user_id = ?", user_id).Find(&arrCart)
 
 	if err := res.Error; err != nil {
 		return arrCart, err

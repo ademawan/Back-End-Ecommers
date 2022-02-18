@@ -5,6 +5,7 @@ import (
 	addressController "Back-End-Ecommers/delivery/controllers/address"
 	authController "Back-End-Ecommers/delivery/controllers/auth"
 	cartController "Back-End-Ecommers/delivery/controllers/cart"
+	categoryController "Back-End-Ecommers/delivery/controllers/category"
 	orderController "Back-End-Ecommers/delivery/controllers/order"
 	paymentController "Back-End-Ecommers/delivery/controllers/payment"
 	productController "Back-End-Ecommers/delivery/controllers/product"
@@ -14,6 +15,7 @@ import (
 	addressRepo "Back-End-Ecommers/repository/address"
 	authRepo "Back-End-Ecommers/repository/auth"
 	cartRepo "Back-End-Ecommers/repository/cart"
+	categoryRepo "Back-End-Ecommers/repository/category"
 	orderRepo "Back-End-Ecommers/repository/order"
 	paymentRepo "Back-End-Ecommers/repository/payment"
 	productRepo "Back-End-Ecommers/repository/product"
@@ -31,6 +33,7 @@ func main() {
 
 	//REPOSITORY-DATABASE
 	userRepo := userRepo.New(db)
+	categoryRepo := categoryRepo.New(db)
 	cartRepo := cartRepo.New(db)
 	orderRepo := orderRepo.New(db)
 	productRepo := productRepo.New(db)
@@ -41,6 +44,7 @@ func main() {
 	//CONTROLLER
 	cartController := cartController.New(cartRepo)
 	orderController := orderController.New(orderRepo)
+	categoryController := categoryController.New(categoryRepo)
 	userController := userController.New(userRepo)
 	productController := productController.New(productRepo)
 	addressController := addressController.New(addressRepo)
@@ -65,6 +69,10 @@ func main() {
 	route.CartPath(
 		e,
 		cartController,
+	)
+	route.CategoryPath(
+		e,
+		categoryController,
 	)
 
 	dummy.Dummy()

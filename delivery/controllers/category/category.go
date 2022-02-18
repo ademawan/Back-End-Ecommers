@@ -2,25 +2,25 @@ package category
 
 import (
 	"Back-End-Ecommers/delivery/controllers/common"
-	"Back-End-Ecommers/delivery/middlewares"
 	"Back-End-Ecommers/entities"
 	"Back-End-Ecommers/repository/category"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
-type CategoryrController struct {
+type CategoryController struct {
 	repo category.Category
 }
 
-func New(repository category.Category) *CategoryrController {
-	return &CategoryrController{
+func New(repository category.Category) *CategoryController {
+	return &CategoryController{
 		repo: repository,
 	}
 }
 
-func (cc *CategoryrController) Create() echo.HandlerFunc {
+func (cc *CategoryController) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		requestFormat := RequestCategory{}
 
@@ -41,10 +41,10 @@ func (cc *CategoryrController) Create() echo.HandlerFunc {
 	}
 }
 
-func (cc *CategoryrController) GetById() echo.HandlerFunc {
+func (cc *CategoryController) GetById() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
-		categoryid := int(middlewares.ExtractTokenId(c))
+		categoryid, _ := strconv.Atoi(c.Param("id"))
 
 		res, err := cc.repo.GetById(categoryid)
 

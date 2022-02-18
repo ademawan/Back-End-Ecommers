@@ -27,7 +27,7 @@ func (cr *CategoryRepository) Create(newCategory entities.Category) (entities.Ca
 func (cr *CategoryRepository) GetById(categoryId int) (entities.Category, error) {
 	arrCategory := entities.Category{}
 
-	result := cr.db.Where("ID = ?", categoryId).First(&arrCategory)
+	result := cr.db.Preload("Product").Where("ID = ?", categoryId).First(&arrCategory)
 
 	if err := result.Error; err != nil {
 		return arrCategory, err

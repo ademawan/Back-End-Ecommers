@@ -6,7 +6,8 @@ import (
 	addressRepo "Back-End-Ecommers/repository/address"
 	cartRepo "Back-End-Ecommers/repository/cart"
 	categoryRepo "Back-End-Ecommers/repository/category"
-	orderRepo "Back-End-Ecommers/repository/order"
+
+	// orderRepo "Back-End-Ecommers/repository/order"
 	paymentRepo "Back-End-Ecommers/repository/payment"
 	productRepo "Back-End-Ecommers/repository/product"
 	userRepo "Back-End-Ecommers/repository/user"
@@ -25,13 +26,19 @@ func Dummy() {
 	db.AutoMigrate(&entities.Category{})
 	db.Migrator().DropTable(&entities.Product{})
 	db.AutoMigrate(&entities.Product{})
+	db.Migrator().DropTable(&entities.Cart{})
+	db.AutoMigrate(&entities.Cart{})
+	db.Migrator().DropTable(&entities.Order{})
+	db.AutoMigrate(&entities.Order{})
+	db.Migrator().DropTable(&entities.OrderDetail{})
+	db.AutoMigrate(&entities.OrderDetail{})
 
 	repoUser := userRepo.New(db)
 	repoAddress := addressRepo.New(db)
 	repoCategory := categoryRepo.New(db)
 	repoProduct := productRepo.New(db)
 	repoPayment := paymentRepo.New(db)
-	repoOrder := orderRepo.New(db)
+	// repoOrder := orderRepo.New(db)
 	repoCart := cartRepo.New(db)
 
 	//user dummy
@@ -93,8 +100,8 @@ func Dummy() {
 	repoPayment.Create(mockPayment4)
 
 	//order dummy
-	mockOrder1 := entities.Order{Payment_ID: 1}
-	repoOrder.Create(1, mockOrder1)
+	// mockOrder1 := entities.Order{Payment_ID: 1}
+	// repoOrder.Create(1, mockOrder1)
 
 	//cart dummy
 	mockCart1 := entities.Cart{Product_ID: 1, Qty: 2}
