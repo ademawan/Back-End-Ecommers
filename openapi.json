@@ -199,11 +199,6 @@
                   "password": {
                     "type": "string",
                     "example": "123"
-                  },
-                  "address":{
-                    "type": "object",
-                    "properties": {
-                    }
                   }
                 }
               }
