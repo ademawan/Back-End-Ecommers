@@ -4,6 +4,7 @@ import (
 	config "Back-End-Ecommers/configs"
 	"Back-End-Ecommers/entities"
 	addressRepo "Back-End-Ecommers/repository/address"
+	cartRepo "Back-End-Ecommers/repository/cart"
 	categoryRepo "Back-End-Ecommers/repository/category"
 	orderRepo "Back-End-Ecommers/repository/order"
 	paymentRepo "Back-End-Ecommers/repository/payment"
@@ -31,6 +32,7 @@ func Dummy() {
 	repoProduct := productRepo.New(db)
 	repoPayment := paymentRepo.New(db)
 	repoOrder := orderRepo.New(db)
+	repoCart := cartRepo.New(db)
 
 	//user dummy
 	mockUserAdmin := entities.User{Name: "Admin", Email: "admin@gmail.com", Password: "admin"}
@@ -89,5 +91,11 @@ func Dummy() {
 	//order dummy
 	mockOrder1 := entities.Order{Payment_ID: 1}
 	repoOrder.Create(1, mockOrder1)
+
+	//order dummy
+	mockCart1 := entities.Cart{Product_ID: 1, Qty: 2}
+	repoCart.Create(1, mockCart1)
+	mockCart2 := entities.Cart{Product_ID: 2, Qty: 1}
+	repoCart.Create(1, mockCart2)
 
 }
