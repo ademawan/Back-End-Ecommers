@@ -11,8 +11,5 @@ type Product struct {
 	Qty         int
 	Description string
 	Category_ID int
-<<<<<<< HEAD
-=======
 	Category    Category `gorm:"column:category_id"`
->>>>>>> c476cb4 (1)
 }

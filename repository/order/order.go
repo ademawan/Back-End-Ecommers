@@ -58,7 +58,6 @@ func (ur *OrderRepository) Create(userId, paymentId int) (entities.Order, error)
 		}
 		for i := 0; i < len(arrCart); i++ {
 			orderdetail := entities.OrderDetail{Order_ID: int(order.ID), Product_ID: arrCart[i].Product_ID, Qty: arrCart[i].Qty}
-			fmt.Println(orderdetail)
 
 			//cek Qty product
 			product := entities.Product{}
@@ -80,15 +79,16 @@ func (ur *OrderRepository) Create(userId, paymentId int) (entities.Order, error)
 			}
 		}
 		tx.Where("user_id = ?", userId).Delete(&entities.Cart{})
-		orderRes = order
 
 		// return nil will commit the whole transaction
 		return nil
 	})
+	fmt.Println(orderRes)
 
 	if err != nil {
 		return orderRes, err
 	}
+	fmt.Println(orderRes)
 
 	return orderRes, nil
 }
