@@ -3,6 +3,7 @@ package route
 import (
 	"Back-End-Ecommers/delivery/controllers/address"
 	"Back-End-Ecommers/delivery/controllers/auth"
+	"Back-End-Ecommers/delivery/controllers/cart"
 	"Back-End-Ecommers/delivery/controllers/payment"
 	"Back-End-Ecommers/delivery/controllers/product"
 	"Back-End-Ecommers/delivery/controllers/user"
@@ -69,5 +70,24 @@ func PaymentMethodPath(e *echo.Echo, pc *payment.PaymentController) {
 	e.GET("paymentmethods/:id", pc.GetById(), middlewares.JwtMiddleware())
 	e.PUT("paymentmethods/:id", pc.UpdateById(), middlewares.JwtMiddleware())
 	e.DELETE("paymentmethods/:id", pc.DeleteById(), middlewares.JwtMiddleware())
+
+}
+
+func CartPath(e *echo.Echo, cc *cart.CartController) {
+
+	//CORS
+	e.Use(middleware.CORS())
+
+	//LOGGER
+	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}",
+	}))
+
+	//ROUTE PAYMENT
+	e.POST("carts", cc.Create(), middlewares.JwtMiddleware())
+	e.GET("carts", cc.GetByUserId(), middlewares.JwtMiddleware())
+	e.PUT("cart/:id", cc.Update(), middlewares.JwtMiddleware())
+	e.DELETE("cart/:id", cc.Delete(), middlewares.JwtMiddleware())
 
 }
