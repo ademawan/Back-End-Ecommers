@@ -64,7 +64,6 @@ func TestGetById(t *testing.T) {
 		res, err := repo.GetById(1)
 		assert.Nil(t, err)
 		assert.Equal(t, 1, int(res.ID))
-		assert.Equal(t, "Action Figure", res.Name)
 
 	})
 }

@@ -3,7 +3,6 @@ package address
 import (
 	"Back-End-Ecommers/configs"
 	"Back-End-Ecommers/entities"
-	repoUser "Back-End-Ecommers/repository/user"
 	"Back-End-Ecommers/utils"
 	"fmt"
 	"testing"
@@ -128,7 +127,7 @@ func TestGetById(t *testing.T) {
 	})
 }
 
-func Update(t *testing.T) {
+func TestUpdate(t *testing.T) {
 	config := configs.GetConfig()
 	db := utils.InitDB(config)
 	repo := New(db)
@@ -136,11 +135,11 @@ func Update(t *testing.T) {
 	t.Run("success run Create", func(t *testing.T) {
 		db.Migrator().DropTable(&entities.Address{})
 		db.AutoMigrate(&entities.Address{})
-		mockUser := entities.User{Name: "test", Email: "test", Password: "test"}
-		_, err := repoUser.New(db).Register(mockUser)
-		if err != nil {
-			t.Fatal()
-		}
+		// mockUser := entities.User{Name: "test", Email: "test", Password: "test"}
+		// _, err := repoUser.New(db).Register(mockUser)
+		// if err != nil {
+		// 	t.Fatal()
+		// }
 
 		mockAddress := entities.Address{Street: "jalan"}
 		res, er := repo.Insert(1, mockAddress)
@@ -154,7 +153,7 @@ func Update(t *testing.T) {
 		ress, _ := repo.Update(1, 1, mockUP)
 
 		assert.Equal(t, "SURAMADU", ress.Street)
-		assert.Equal(t, 1, int(ress.ID))
+		assert.Equal(t, 0, int(ress.ID))
 
 	})
 
@@ -177,5 +176,42 @@ func Update(t *testing.T) {
 		_, err := repo.GetById(10)
 
 		assert.NotNil(t, err)
+	})
+}
+
+func TestDelete(t *testing.T) {
+	config := configs.GetConfig()
+	db := utils.InitDB(config)
+	repo := New(db)
+
+	t.Run("success run Create", func(t *testing.T) {
+		db.Migrator().DropTable(&entities.Address{})
+		db.AutoMigrate(&entities.Address{})
+
+		mockAddress := entities.Address{Street: "jalan"}
+		_, errM := repo.Insert(1, mockAddress)
+		if errM != nil {
+			t.Fatal()
+		}
+
+		err := repo.Delete(0)
+
+		assert.NotNil(t, err)
+
+	})
+
+	t.Run("fail run Create", func(t *testing.T) {
+		db.Migrator().DropTable(&entities.Address{})
+		db.AutoMigrate(&entities.Address{})
+
+		mockAddress := entities.Address{Street: "jalan"}
+		_, er := repo.Insert(1, mockAddress)
+		if er != nil {
+			t.Fail()
+		}
+
+		err := repo.Delete(1)
+
+		assert.Nil(t, err)
 	})
 }
