@@ -2,17 +2,14 @@ module Back-End-Ecommers
 
 go 1.17
 
-require gorm.io/gorm v1.22.5
-
-require github.com/labstack/gommon v0.3.1
-
-require gorm.io/driver/mysql v1.2.3
-
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/labstack/echo/v4 v4.6.3
+	github.com/labstack/gommon v0.3.1
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
+	gorm.io/driver/mysql v1.3.0
+	gorm.io/gorm v1.23.1
 )
 
 require (
