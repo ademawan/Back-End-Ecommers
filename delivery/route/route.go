@@ -4,6 +4,7 @@ import (
 	"Back-End-Ecommers/delivery/controllers/address"
 	"Back-End-Ecommers/delivery/controllers/auth"
 	"Back-End-Ecommers/delivery/controllers/cart"
+	"Back-End-Ecommers/delivery/controllers/category"
 	"Back-End-Ecommers/delivery/controllers/order"
 	"Back-End-Ecommers/delivery/controllers/payment"
 	"Back-End-Ecommers/delivery/controllers/product"
@@ -37,16 +38,15 @@ func RegisterPath(e *echo.Echo, uc *user.UserController, ac *address.AddressCont
 	e.PUT("users/me", uc.Update(), middlewares.JwtMiddleware())
 	e.DELETE("users/me", uc.Delete(), middlewares.JwtMiddleware())
 
-	//===========================================================
 	//ROUTE ADDRESS
 	ea := e.Group("")
-
 	ea.POST("address", ac.Register(), middlewares.JwtMiddleware())
 	ea.GET("address", ac.Get())
 	ea.GET("address/:id", ac.GetById(), middlewares.JwtMiddleware())
 	ea.PUT("address/:id", ac.Update(), middlewares.JwtMiddleware())
 	ea.DELETE("address/:id", ac.Delete(), middlewares.JwtMiddleware())
 
+	//ROUTE ADDRESS
 	ea.POST("products", pc.Register(), middlewares.JwtMiddleware())
 	ea.GET("products", pc.Get())
 	ea.GET("products/:id", pc.GetById(), middlewares.JwtMiddleware())
@@ -95,6 +95,25 @@ func CartPath(e *echo.Echo, cc *cart.CartController) {
 	//ROUTE PAYMENT
 	e.POST("carts", cc.Create(), middlewares.JwtMiddleware())
 	e.GET("carts", cc.GetByUserId(), middlewares.JwtMiddleware())
+	e.PUT("cart/:id", cc.Update(), middlewares.JwtMiddleware())
+	e.DELETE("cart/:id", cc.Delete(), middlewares.JwtMiddleware())
+
+}
+
+func CategoryPath(e *echo.Echo, cc *category.CategoryrController) {
+
+	//CORS
+	e.Use(middleware.CORS())
+
+	//LOGGER
+	e.Pre(middleware.RemoveTrailingSlash())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}",
+	}))
+
+	//ROUTE PAYMENT
+	e.POST("carts", cc.Create(), middlewares.JwtMiddleware())
+	e.GET("carts", cc.GetById(), middlewares.JwtMiddleware())
 	e.PUT("cart/:id", cc.Update(), middlewares.JwtMiddleware())
 	e.DELETE("cart/:id", cc.Delete(), middlewares.JwtMiddleware())
 
