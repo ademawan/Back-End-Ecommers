@@ -3,7 +3,6 @@ package order
 import (
 	"Back-End-Ecommers/entities"
 	"errors"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -52,7 +51,7 @@ func (ur *OrderRepository) Create(userId, paymentId int) (entities.Order, error)
 		}
 
 		// do some database operations in the transaction (use 'tx' from this point, not 'db')
-		if err := tx.Model(&orderRes).Preload("User").Preload("Payment").Preload("User.Address").Preload("OrderDetail").Create(&order).Error; err != nil {
+		if err := tx.Model(&orderRes).Create(&order).Error; err != nil {
 			// return any error will rollback
 			return err
 		}
@@ -79,16 +78,16 @@ func (ur *OrderRepository) Create(userId, paymentId int) (entities.Order, error)
 			}
 		}
 		tx.Where("user_id = ?", userId).Delete(&entities.Cart{})
-
+		if err := tx.Model(&entities.Order{}).Preload("User").Preload("Payment").Preload("User.Address").Preload("OrderDetail").Where("ID = ?", order.ID).First(&orderRes).Error; err != nil {
+			return err
+		}
 		// return nil will commit the whole transaction
 		return nil
 	})
-	fmt.Println(orderRes)
 
 	if err != nil {
 		return orderRes, err
 	}
-	fmt.Println(orderRes)
 
 	return orderRes, nil
 }
