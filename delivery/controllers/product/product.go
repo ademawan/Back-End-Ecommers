@@ -2,6 +2,7 @@ package product
 
 import (
 	"Back-End-Ecommers/delivery/controllers/common"
+	"Back-End-Ecommers/delivery/middlewares"
 	"Back-End-Ecommers/entities"
 	"Back-End-Ecommers/repository/product"
 	"net/http"
@@ -48,6 +49,12 @@ func (ac *ProductController) GetById() echo.HandlerFunc {
 
 func (ac *ProductController) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "sorry you are not an admin", nil))
+		}
 		product := InsertProductRequestFormat{}
 
 		if err := c.Bind(&product); err != nil {
@@ -67,6 +74,13 @@ func (ac *ProductController) Register() echo.HandlerFunc {
 func (ac *ProductController) Update() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var newProduct = UpdateProductRequestFormat{}
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "sorry you are not an admin", nil))
+		}
+
 		productId, _ := strconv.Atoi(c.Param("id"))
 
 		if err := c.Bind(&newProduct); err != nil {
@@ -85,6 +99,12 @@ func (ac *ProductController) Update() echo.HandlerFunc {
 
 func (ac *ProductController) Delete() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		email := middlewares.ExtractTokenAdmin(c)[0]
+		password := middlewares.ExtractTokenAdmin(c)[1]
+
+		if email != "admin@admin.com" && password != "admin" {
+			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "sorry you are not an admin", nil))
+		}
 		productId, _ := strconv.Atoi(c.Param("id"))
 
 		err := ac.repo.Delete(productId)
