@@ -1,20 +1,19 @@
 package configs
 
 import (
+	"fmt"
 	"os"
 	"sync"
 )
 
 type AppConfig struct {
-	Port     int `yaml:"port"`
-	Database struct {
-		Driver   string `yaml:"driver"`
-		Name     string `yaml:"name"`
-		Address  string `yaml:"address"`
-		Port     int    `yaml:"port"`
-		Username string `yaml:"username"`
-		Password string `yaml:"password"`
-	}
+	Port     int
+	Driver   string
+	Name     string
+	Address  string
+	DB_Port  int
+	Username string
+	Password string
 }
 
 var lock = &sync.Mutex{}
@@ -33,21 +32,23 @@ func GetConfig() *AppConfig {
 func initConfig() *AppConfig {
 	var defaultConfig AppConfig
 	defaultConfig.Port = 8000
-	defaultConfig.Database.Driver = getEnv("DRIVER", "mysql")
-	defaultConfig.Database.Name = getEnv("NAME", "project_ecommerce_k2")
-	defaultConfig.Database.Address = getEnv("ADDRESS", "localhost")
-	defaultConfig.Database.Port = 3306
-	defaultConfig.Database.Username = getEnv("USERNAME", "root")
-	defaultConfig.Database.Password = getEnv("PASSWORD", "root")
+	defaultConfig.Driver = getEnv("DRIVER", "mysql")
+	defaultConfig.Name = getEnv("NAME", "project_ecommerce_k2")
+	defaultConfig.Address = getEnv("ADDRESS", "localhost")
+	defaultConfig.DB_Port = 3306
+	defaultConfig.Username = getEnv("USERNAME", "root") /* "root" */
+	defaultConfig.Password = getEnv("PASSWORD", "adol1122")
+
+	fmt.Println(defaultConfig)
+
 	return &defaultConfig
 }
 
 func getEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok && value != "user" {
-		// fmt.Println(value)
+	if value, ok := os.LookupEnv(key); ok && value != "Thinkpad X250" {
+		fmt.Println(value)
 		return value
 	}
 
 	return fallback
-
 }
