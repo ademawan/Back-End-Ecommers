@@ -115,6 +115,7 @@ func CategoryPath(e *echo.Echo, cc *category.CategoryController) {
 	//ROUTE PAYMENT
 	e.POST("category", cc.Create(), middlewares.JwtMiddleware())
 	e.GET("category/:id", cc.GetById(), middlewares.JwtMiddleware())
+	e.GET("categories", cc.GetAll(), middlewares.JwtMiddleware())
 	// e.PUT("category/:id", cc.Update(), middlewares.JwtMiddleware())
 	// e.DELETE("category/:id", cc.Delete(), middlewares.JwtMiddleware())
 
