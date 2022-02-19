@@ -2,20 +2,18 @@ package orderdetail
 
 import (
 	"Back-End-Ecommers/delivery/controllers/common"
-	"Back-End-Ecommers/delivery/middlewares"
-	"Back-End-Ecommers/entities"
-	"Back-End-Ecommers/repository/order"
+	"Back-End-Ecommers/repository/orderdetail"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
-type OrderController struct {
-	repo order.Order
+type OrderDetailController struct {
+	repo orderdetail.OrderDetail
 }
 
-func New(repository order.Order) *OrderController {
-	return &OrderController{
+func New(repository orderdetail.OrderDetail) *OrderDetailController {
+	return &OrderDetailController{
 		repo: repository,
 	}
 }
@@ -47,15 +45,15 @@ func New(repository order.Order) *OrderController {
 // 	}
 // }
 
-func (tc *OrderController) Create() echo.HandlerFunc {
+func (tc *OrderDetailController) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		orderdetail := RegisterOrderDetailRequestFormat{}
-		userId := int(middlewares.ExtractTokenId(c))
+		// userId := int(middlewares.ExtractTokenId(c))
 		if err := c.Bind(&orderdetail); err != nil {
 			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input", nil))
 		}
 
-		res, err := tc.repo.Create(userId, entities.OrderDetail{Payment_ID: orderdetail.Payment_ID})
+		res, err := tc.repo.Create(orderdetail.Product_ID, orderdetail.Order_ID, orderdetail.Qty)
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))

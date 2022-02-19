@@ -7,6 +7,7 @@ import (
 	cartController "Back-End-Ecommers/delivery/controllers/cart"
 	categoryController "Back-End-Ecommers/delivery/controllers/category"
 	orderController "Back-End-Ecommers/delivery/controllers/order"
+	orderdetailController "Back-End-Ecommers/delivery/controllers/orderdetail"
 	paymentController "Back-End-Ecommers/delivery/controllers/payment"
 	productController "Back-End-Ecommers/delivery/controllers/product"
 	userController "Back-End-Ecommers/delivery/controllers/user"
@@ -17,6 +18,7 @@ import (
 	cartRepo "Back-End-Ecommers/repository/cart"
 	categoryRepo "Back-End-Ecommers/repository/category"
 	orderRepo "Back-End-Ecommers/repository/order"
+	orderdetailRepo "Back-End-Ecommers/repository/orderdetail"
 	paymentRepo "Back-End-Ecommers/repository/payment"
 	productRepo "Back-End-Ecommers/repository/product"
 	userRepo "Back-End-Ecommers/repository/user"
@@ -40,6 +42,7 @@ func main() {
 	addressRepo := addressRepo.New(db)
 	authRepo := authRepo.New(db)
 	paymentRepo := paymentRepo.New(db)
+	orderdetailRepo := orderdetailRepo.New(db)
 
 	//CONTROLLER
 	cartController := cartController.New(cartRepo)
@@ -50,6 +53,7 @@ func main() {
 	addressController := addressController.New(addressRepo)
 	authController := authController.New(authRepo)
 	paymentController := paymentController.New(paymentRepo)
+	orderdetailController := orderdetailController.New(orderdetailRepo)
 
 	e := echo.New()
 
@@ -73,6 +77,10 @@ func main() {
 	route.CategoryPath(
 		e,
 		categoryController,
+	)
+	route.OrderDetailPath(
+		e,
+		orderdetailController,
 	)
 
 	dummy.Dummy()

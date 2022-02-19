@@ -2,6 +2,7 @@ package category
 
 import (
 	"Back-End-Ecommers/delivery/controllers/common"
+	"Back-End-Ecommers/delivery/middlewares"
 	"Back-End-Ecommers/entities"
 	"Back-End-Ecommers/repository/category"
 	"net/http"
@@ -62,7 +63,7 @@ func (cc *CategoryController) GetById() echo.HandlerFunc {
 	}
 }
 
-func (cc *CategoryrController) GetAll() echo.HandlerFunc {
+func (cc *CategoryController) GetAll() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		res, err := cc.repo.GetAll()
 
@@ -74,7 +75,7 @@ func (cc *CategoryrController) GetAll() echo.HandlerFunc {
 	}
 }
 
-func (cc *CategoryrController) Update() echo.HandlerFunc {
+func (cc *CategoryController) Update() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		email := middlewares.ExtractTokenAdmin(c)[0]
 		password := middlewares.ExtractTokenAdmin(c)[1]
@@ -91,7 +92,7 @@ func (cc *CategoryrController) Update() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input", nil))
 		}
 
-		res, err := cc.repo.Update(categoryId, entities.Category{Name: newCategory.Name})
+		res, err := cc.repo.UpdateById(categoryId, entities.Category{Name: newCategory.Name})
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
@@ -101,7 +102,7 @@ func (cc *CategoryrController) Update() echo.HandlerFunc {
 	}
 }
 
-func (cc *CategoryrController) Delete() echo.HandlerFunc {
+func (cc *CategoryController) Delete() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		email := middlewares.ExtractTokenAdmin(c)[0]
 		password := middlewares.ExtractTokenAdmin(c)[1]
@@ -111,7 +112,7 @@ func (cc *CategoryrController) Delete() echo.HandlerFunc {
 		}
 		categoryId, _ := strconv.Atoi(c.Param("id"))
 
-		_, err := cc.repo.Delete(categoryId)
+		err := cc.repo.Delete(categoryId)
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))

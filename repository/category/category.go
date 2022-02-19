@@ -47,10 +47,10 @@ func (cr *CategoryRepository) UpdateById(categoryId int, newCategory entities.Ca
 	return newCategory, nil
 }
 
-func (cr *CategoryRepository) Delete(id int) error {
+func (cr *CategoryRepository) Delete(categoryId int) error {
 	category := entities.Category{}
 
-	res := cr.db.Model(&category).Where("id = ?", id).Delete(&category)
+	res := cr.db.Model(&category).Where("id = ?", category.ID).Delete(&category)
 	if res.RowsAffected == 0 {
 		return errors.New(gorm.ErrRecordNotFound.Error())
 	}
