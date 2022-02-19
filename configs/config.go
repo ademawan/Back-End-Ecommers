@@ -1,8 +1,10 @@
 package configs
 
 import (
-	"os"
 	"sync"
+
+	"github.com/labstack/gommon/log"
+	"github.com/spf13/viper"
 )
 
 type AppConfig struct {
@@ -23,6 +25,7 @@ var appConfig *AppConfig
 func GetConfig() *AppConfig {
 	lock.Lock()
 	defer lock.Unlock()
+
 	if appConfig == nil {
 		appConfig = initConfig()
 	}
@@ -31,43 +34,37 @@ func GetConfig() *AppConfig {
 }
 
 func initConfig() *AppConfig {
+	// var defaultConfig AppConfig
+	// defaultConfig.Port = 8000
+	// defaultConfig.Database.Driver = "mysql"
+	// defaultConfig.Database.Name = "test"
+	// defaultConfig.Database.Address = "localhost"
+	// defaultConfig.Database.Port = 3306
+	// defaultConfig.Database.Username = "root"
+	// defaultConfig.Database.Password = "mysqlku"
+
 	var defaultConfig AppConfig
 	defaultConfig.Port = 8000
-	defaultConfig.Database.Driver = getEnv("DRIVER", "mysql")
-	defaultConfig.Database.Name = getEnv("NAME", "project_ecommerce_k2")
-	defaultConfig.Database.Address = getEnv("ADDRESS", "localhost")
+	defaultConfig.Database.Driver = "mysql"
+	defaultConfig.Database.Name = "be6_db"
+	defaultConfig.Database.Address = "localhost"
 	defaultConfig.Database.Port = 3306
-	defaultConfig.Database.Username = getEnv("USERNAME", "root")
-	defaultConfig.Database.Password = getEnv("PASSWORD", "root")
+	defaultConfig.Database.Username = "root"
+	defaultConfig.Database.Password = "adol1122"
 
-	// viper.SetConfigType("yaml")
-	// viper.SetConfigName("config")
-	// viper.AddConfigPath("./configs")
-	// // log.Info(viper.ReadInConfig())
-	// if err := viper.ReadInConfig(); err != nil {
-	// 	// fmt.Println("kok mlaku")
-	// 	log.Info("error in open file")
-	// 	return &defaultConfig
-	// }
-
-	// var finalConfig AppConfig
-
-	// if err := viper.Unmarshal(&finalConfig); err != nil {
-	// 	log.Info("error in extract external config, must use default config")
-	// 	return &defaultConfig
-	// }
-
-	// fmt.Println(defaultConfig)
-
-	return &defaultConfig
-}
-
-func getEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok && value != "user" {
-		// fmt.Println(value)
-		return value
+	viper.SetConfigType("yaml")
+	viper.SetConfigName("config")
+	viper.AddConfigPath("./configs/")
+	if err := viper.ReadInConfig(); err != nil {
+		log.Info("failed to open file")
+		return &defaultConfig
 	}
 
-	return fallback
-
+	var finalConfig AppConfig
+	err := viper.Unmarshal(&finalConfig)
+	if err != nil {
+		log.Info("failed to extract external config, use default value")
+		return &defaultConfig
+	}
+	return &finalConfig
 }

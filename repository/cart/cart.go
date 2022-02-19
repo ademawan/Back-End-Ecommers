@@ -17,8 +17,29 @@ func New(db *gorm.DB) *CartRepository {
 	}
 }
 
+func (cr *CartRepository) GetByIdCart(cart_id int) (entities.Cart, error) {
+	cart := entities.Cart{}
+
+	res := cr.db.Preload("User").Preload("User.Address").Preload("Product").Preload("Product.Category").Where("ID = ?", cart_id).First(&cart)
+
+	if err := res.Error; err != nil {
+		return cart, err
+	}
+
+	return cart, nil
+}
 func (cr *CartRepository) Create(user_id int, newCart entities.Cart) (entities.Cart, error) {
 	newCart.User_ID = user_id
+	cart := entities.Cart{}
+
+	res := cr.db.Model(entities.Cart{}).Where("user_id = ? AND product_id = ?", user_id, newCart.Product_ID).First(&cart)
+	if res.Error == nil {
+		res := cr.db.Model(entities.Cart{}).Where("ID = ?", cart.ID).Update("qty", cart.Qty+newCart.Qty)
+		if res.Error != nil {
+			return entities.Cart{}, nil
+		}
+		return entities.Cart{}, nil
+	}
 
 	if err := cr.db.Create(&newCart).Error; err != nil {
 		return newCart, err

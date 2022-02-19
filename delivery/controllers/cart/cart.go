@@ -22,6 +22,28 @@ func New(repository cart.Cart) *CartController {
 	}
 }
 
+func (cc *CartController) GetByIdCart() echo.HandlerFunc {
+	return func(c echo.Context) error {
+
+		cart_id, _ := strconv.Atoi(c.Param("id"))
+		res, err := cc.repo.GetByIdCart(cart_id)
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(
+				http.StatusInternalServerError,
+				"error in database process",
+				nil,
+			))
+		}
+
+		return c.JSON(http.StatusOK, ResponseGetCartByIdCart{
+			Code:    http.StatusOK,
+			Message: "Success Get Carts by user ID",
+			Data:    res,
+		})
+	}
+}
+
 func (cc *CartController) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		user_id := int(middlewares.ExtractTokenId(c))
@@ -54,8 +76,8 @@ func (cc *CartController) Create() echo.HandlerFunc {
 
 func (cc *CartController) GetByUserId() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		// id, _ := strconv.Atoi(c.Param("id"))
-		user_id, _ := strconv.Atoi(c.Param("id"))
+
+		user_id := int(middlewares.ExtractTokenId(c))
 		res, err := cc.repo.GetByUserId(user_id)
 
 		if err != nil {

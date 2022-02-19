@@ -93,7 +93,8 @@ func CartPath(e *echo.Echo, cc *cart.CartController) {
 		Format: "method=${method}, uri=${uri}, status=${status}",
 	}))
 
-	//ROUTE PAYMENT
+	//ROUTE CARTS
+	e.GET("carts/:id", cc.GetByIdCart(), middlewares.JwtMiddleware())
 	e.POST("carts", cc.Create(), middlewares.JwtMiddleware())
 	e.GET("carts", cc.GetByUserId(), middlewares.JwtMiddleware())
 	e.PUT("cart/:id", cc.Update(), middlewares.JwtMiddleware())

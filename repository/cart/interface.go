@@ -3,6 +3,7 @@ package cart
 import "Back-End-Ecommers/entities"
 
 type Cart interface {
+	GetByIdCart(cart_id int) (entities.Cart, error)
 	Create(user_id int, newCart entities.Cart) (entities.Cart, error)
 	GetByUserId(user_id int) ([]entities.Cart, error)
 	Update(user_id int, newCart entities.Cart) (entities.Cart, error)

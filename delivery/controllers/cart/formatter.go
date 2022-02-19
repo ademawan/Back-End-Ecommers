@@ -20,3 +20,8 @@ type ResponseGetCart struct {
 	Message string `json:"message"`
 	Data    []entities.Cart
 }
+type ResponseGetCartByIdCart struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Data    entities.Cart
+}
