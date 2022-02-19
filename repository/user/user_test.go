@@ -5,6 +5,7 @@ import (
 	"Back-End-Ecommers/delivery/middlewares"
 	"Back-End-Ecommers/entities"
 	"Back-End-Ecommers/utils"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -47,27 +48,32 @@ func TestGetAll(t *testing.T) {
 	config := configs.GetConfig()
 	db := utils.InitDB(config)
 	repo := New(db)
-	db.Migrator().DropTable(&entities.User{})
-	db.AutoMigrate(&entities.User{})
 
 	t.Run("fail run Get All", func(t *testing.T) {
+		db.Migrator().DropTable(&entities.User{})
+		db.AutoMigrate(&entities.User{})
 		mocUser := entities.User{Name: "anonim123", Email: "anonim@123", Password: "anonim123"}
-		_, errM := repo.Register(mocUser)
-		if errM != nil {
-			t.Fail()
+		if _, err := repo.Register(mocUser); err != nil {
+			t.Fatal()
 		}
 
-		errA := repo.Delete(1)
-		if errA != nil {
-			t.Fail()
+		if err := repo.Delete(1); err != nil {
+			t.Fatal()
 		}
+
 		_, err := repo.GetAll()
+		fmt.Println(err)
 
 		assert.Nil(t, err)
 	})
 
 	t.Run("success run Get All", func(t *testing.T) {
+		db.Migrator().DropTable(&entities.User{})
+		db.AutoMigrate(&entities.User{})
 		mocUser := entities.User{Name: "anonim123", Email: "anonim@123", Password: "anonim123"}
+		if _, err := repo.Register(mocUser); err != nil {
+			t.Fatal()
+		}
 		_, err := repo.GetAll()
 
 		mocUser.Password, _ = middlewares.HashPassword(mocUser.Password)
