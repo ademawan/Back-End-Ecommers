@@ -54,8 +54,8 @@ func (cc *CartController) Create() echo.HandlerFunc {
 
 func (cc *CartController) GetByUserId() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		user_id := int(middlewares.ExtractTokenId(c))
-
+		// id, _ := strconv.Atoi(c.Param("id"))
+		user_id, _ := strconv.Atoi(c.Param("id"))
 		res, err := cc.repo.GetByUserId(user_id)
 
 		if err != nil {
