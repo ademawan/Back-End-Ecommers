@@ -11,4 +11,5 @@ type Product struct {
 	Qty         int
 	Description string
 	Category_ID int
+	Category    Category `gorm:"column:category_id"`
 }
