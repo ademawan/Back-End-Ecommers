@@ -42,7 +42,7 @@ func Dummy() {
 	repoCart := cartRepo.New(db)
 
 	//user dummy
-	mockUserAdmin := entities.User{Name: "Admin", Email: "admin@gmail.com", Password: "admin"}
+	mockUserAdmin := entities.User{Name: "Admin", Email: "admin@admin.com", Password: "admin"}
 	repoUser.Register(mockUserAdmin)
 	mockUser1 := entities.User{Name: "testuser1", Email: "testuser1@gmail.com", Password: "xyz"}
 	repoUser.Register(mockUser1)
