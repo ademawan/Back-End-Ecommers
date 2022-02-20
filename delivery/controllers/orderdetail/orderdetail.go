@@ -50,7 +50,7 @@ func (tc *OrderDetailController) Create() echo.HandlerFunc {
 		orderdetail := RegisterOrderDetailRequestFormat{}
 		// userId := int(middlewares.ExtractTokenId(c))
 		if err := c.Bind(&orderdetail); err != nil {
-			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input", nil))
+			return c.JSON(http.StatusBadRequest, common.BadRequest(http.StatusBadRequest, "There is some problem from input data", nil))
 		}
 
 		res, err := tc.repo.Create(orderdetail.Product_ID, orderdetail.Order_ID, orderdetail.Qty)
