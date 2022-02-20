@@ -20,7 +20,7 @@ func GenerateToken(u entities.User) (string, error) {
 		"id":       u.ID,
 		"email":    u.Email,
 		"password": u.Password,
-		"exp":      time.Now().Add(time.Hour * 1).Unix(),
+		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 		"auth":     true,
 	}
 

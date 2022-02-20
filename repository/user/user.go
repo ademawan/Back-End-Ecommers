@@ -31,7 +31,7 @@ func (ur *UserRepository) Register(u entities.User) (entities.User, error) {
 func (ur *UserRepository) GetAll() ([]entities.User, error) {
 	arrUser := []entities.User{}
 
-	if err := ur.database.Preload("Address").Find(&arrUser).Error; err != nil {
+	if err := ur.database.Model("Address").Find(&arrUser).Error; err != nil {
 		return nil, err
 	}
 
