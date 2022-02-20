@@ -1,22 +1,19 @@
 package configs
 
 import (
+	"fmt"
+	"os"
 	"sync"
-
-	"github.com/labstack/gommon/log"
-	"github.com/spf13/viper"
 )
 
 type AppConfig struct {
-	Port     int `yaml:"port"`
-	Database struct {
-		Driver   string `yaml:"driver"`
-		Name     string `yaml:"name"`
-		Address  string `yaml:"address"`
-		Port     int    `yaml:"port"`
-		Username string `yaml:"username"`
-		Password string `yaml:"password"`
-	}
+	Port     int
+	Driver   string
+	Name     string
+	Address  string
+	DB_Port  int
+	Username string
+	Password string
 }
 
 var lock = &sync.Mutex{}
@@ -25,7 +22,6 @@ var appConfig *AppConfig
 func GetConfig() *AppConfig {
 	lock.Lock()
 	defer lock.Unlock()
-
 	if appConfig == nil {
 		appConfig = initConfig()
 	}
@@ -34,37 +30,25 @@ func GetConfig() *AppConfig {
 }
 
 func initConfig() *AppConfig {
-	// var defaultConfig AppConfig
-	// defaultConfig.Port = 8000
-	// defaultConfig.Database.Driver = "mysql"
-	// defaultConfig.Database.Name = "test"
-	// defaultConfig.Database.Address = "localhost"
-	// defaultConfig.Database.Port = 3306
-	// defaultConfig.Database.Username = "root"
-	// defaultConfig.Database.Password = "mysqlku"
-
 	var defaultConfig AppConfig
 	defaultConfig.Port = 8000
-	defaultConfig.Database.Driver = "mysql"
-	defaultConfig.Database.Name = "be6_db"
-	defaultConfig.Database.Address = "localhost"
-	defaultConfig.Database.Port = 3306
-	defaultConfig.Database.Username = "root"
-	defaultConfig.Database.Password = "adol1122"
+	defaultConfig.Driver = getEnv("DRIVER", "mysql")
+	defaultConfig.Name = getEnv("NAME", "project_ecommerce_k2")
+	defaultConfig.Address = getEnv("ADDRESS", "localhost")
+	defaultConfig.DB_Port = 3306
+	defaultConfig.Username = getEnv("USERNAME", "root") /* "root" */
+	defaultConfig.Password = getEnv("PASSWORD", "adol1122")
 
-	viper.SetConfigType("yaml")
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./configs/")
-	if err := viper.ReadInConfig(); err != nil {
-		log.Info("failed to open file")
-		return &defaultConfig
+	fmt.Println(defaultConfig)
+
+	return &defaultConfig
+}
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok && value != "Thinkpad X250" {
+		fmt.Println(value)
+		return value
 	}
 
-	var finalConfig AppConfig
-	err := viper.Unmarshal(&finalConfig)
-	if err != nil {
-		log.Info("failed to extract external config, use default value")
-		return &defaultConfig
-	}
-	return &finalConfig
+	return fallback
 }
