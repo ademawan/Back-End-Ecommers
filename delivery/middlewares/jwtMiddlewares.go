@@ -30,7 +30,7 @@ func GenerateToken(u entities.User) (string, error) {
 }
 
 func ExtractTokenId(e echo.Context) float64 {
-	user := e.Get("user").(*jwt.Token) //convert to jwt token from interface
+	user := e.Get("user").(*jwt.Token) //convert to jwt token fromm interface
 	if user.Valid {
 		codes := user.Claims.(jwt.MapClaims)
 		id := codes["id"].(float64)
