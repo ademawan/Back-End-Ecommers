@@ -1,2 +1,5 @@
 config.yaml
 vendor/
+config.go
+go.mod
+go.sum
