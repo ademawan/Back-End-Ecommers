@@ -3,3 +3,4 @@ vendor/
 config.go
 go.mod
 go.sum
+dummy/
