@@ -18,7 +18,7 @@ func New(db *gorm.DB) *ProductRepository {
 }
 
 func (cr *ProductRepository) Create(newProduct entities.Product) (entities.Product, error) {
-	newProduct.Img = "https://m.media-amazon.com/images/M/MV5BMTYwNjAyODIyMF5BMl5BanBnXkFtZTYwNDMwMDk2._V1_SX300.jpg"
+
 	if err := cr.db.Create(&newProduct).Error; err != nil {
 		return newProduct, err
 	}

@@ -72,21 +72,24 @@ func Dummy() {
 	repoCategory.Create(mockCategory4)
 
 	//product dummy
-	mockProduct1 := entities.Product{Name: "product1", Price: 30000, Qty: 30, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 1}
+	mockProduct1 := entities.Product{Name: "product1", Price: 30000, Qty: 30, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 1, Img: "https://dailyspin.id/wp-content/uploads/2021/02/Keqing-Genshin-Impact.jpg"}
 	repoProduct.Create(mockProduct1)
-	mockProduct2 := entities.Product{Name: "product2", Price: 30000, Qty: 30, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 2}
-	repoProduct.Create(mockProduct2)
-	mockProduct3 := entities.Product{Name: "product3", Price: 30000, Qty: 30, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 3}
-	repoProduct.Create(mockProduct3)
-	mockProduct4 := entities.Product{Name: "product4", Price: 40000, Qty: 40, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 4}
-	repoProduct.Create(mockProduct4)
-	mockProduct5 := entities.Product{Name: "product5", Price: 40000, Qty: 40, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 1}
+	mockProduct5 := entities.Product{Name: "product5", Price: 40000, Qty: 40, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 1, Img: "https://static.zerochan.net/Noelle.%28Genshin.Impact%29.full.3094842.jpg"}
 	repoProduct.Create(mockProduct5)
-	mockProduct6 := entities.Product{Name: "product6", Price: 60000, Qty: 60, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 2}
+
+	mockProduct2 := entities.Product{Name: "product2", Price: 30000, Qty: 30, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 2, Img: "https://cf.shopee.co.id/file/66c1cbc78b47f53f9e61971731a3fca9"}
+	repoProduct.Create(mockProduct2)
+	mockProduct6 := entities.Product{Name: "product6", Price: 60000, Qty: 60, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 2, Img: "https://cf.shopee.ph/file/8957dd976845fb139721f9d12f0644f1"}
 	repoProduct.Create(mockProduct6)
-	mockProduct7 := entities.Product{Name: "product7", Price: 20000, Qty: 35, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 3}
+
+	mockProduct3 := entities.Product{Name: "product3", Price: 30000, Qty: 30, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 3, Img: "https://cf.shopee.co.id/file/e5b6f506cff439c6afd4e354fd78e599"}
+	repoProduct.Create(mockProduct3)
+	mockProduct7 := entities.Product{Name: "product7", Price: 20000, Qty: 35, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 3, Img: "https://1.bp.blogspot.com/-CnI6wJwry_4/W9Y47AjCU3I/AAAAAAAANQ0/-nK46KZqy781t0Dl75j2B2hZy0DkeP56wCLcBGAs/s1600/zeonic-technics-robotics-and-programming-kit.jpg"}
 	repoProduct.Create(mockProduct7)
-	mockProduct8 := entities.Product{Name: "product8", Price: 80000, Qty: 20, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 4}
+
+	mockProduct4 := entities.Product{Name: "product4", Price: 40000, Qty: 40, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 4, Img: "https://i.ebayimg.com/images/g/WqEAAOSwy1VeFCQI/s-l400.jpg"}
+	repoProduct.Create(mockProduct4)
+	mockProduct8 := entities.Product{Name: "product8", Price: 80000, Qty: 20, Description: "bLABFJAEFKJHKJNEKFNKJWAEFAWNJNASNDJ", Category_ID: 4, Img: "https://static.zerochan.net/Noelle.%28Genshin.Impact%29.full.3094842.jpg"}
 	repoProduct.Create(mockProduct8)
 
 	//payment dummy
