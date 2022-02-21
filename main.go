@@ -12,6 +12,7 @@ import (
 	productController "Back-End-Ecommers/delivery/controllers/product"
 	userController "Back-End-Ecommers/delivery/controllers/user"
 	"Back-End-Ecommers/delivery/route"
+	"Back-End-Ecommers/dummy"
 	addressRepo "Back-End-Ecommers/repository/address"
 	authRepo "Back-End-Ecommers/repository/auth"
 	cartRepo "Back-End-Ecommers/repository/cart"
@@ -82,7 +83,7 @@ func main() {
 		orderdetailController,
 	)
 
-	// dummy.Dummy()
+	dummy.Dummy()
 
 	log.Fatal(e.Start(fmt.Sprintf(":%d", config.Port)))
 
