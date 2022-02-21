@@ -32,7 +32,7 @@ func (pc *PaymentController) Create() echo.HandlerFunc {
 		requestFormat := RequestPayment{}
 
 		if err := c.Bind(&requestFormat); err != nil || requestFormat.Name == "" {
-			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "Invalid in Input Data Category", nil))
+			return c.JSON(http.StatusBadRequest, common.BadRequest(nil, "Invalid in Input Data Payment", nil))
 		}
 
 		newPayment := entities.Payment{
@@ -42,9 +42,9 @@ func (pc *PaymentController) Create() echo.HandlerFunc {
 		res, err := pc.repo.Create(newPayment)
 
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, common.InternalServerError(nil, "error in apcess Create Category", nil))
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(nil, "error in apcess Create Payment", nil))
 		}
-		return c.JSON(http.StatusCreated, common.Success(http.StatusCreated, "Supcess Create Category", res.Name))
+		return c.JSON(http.StatusCreated, common.Success(http.StatusCreated, "Supcess Create Payment", res.Name))
 	}
 }
 
@@ -64,7 +64,7 @@ func (pc *PaymentController) GetAll() echo.HandlerFunc {
 
 		return c.JSON(http.StatusCreated, common.Success(
 			http.StatusCreated,
-			"success to get all project",
+			"success to get all Payment",
 			res,
 		))
 	}
@@ -78,10 +78,10 @@ func (pc *PaymentController) GetById() echo.HandlerFunc {
 		res, err := pc.repo.GetById(paymentId)
 
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, common.InternalServerError(nil, "error in apcess Get Category By id", nil))
+			return c.JSON(http.StatusInternalServerError, common.InternalServerError(nil, "error in apcess Get Payment By id", nil))
 		}
 
-		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Supcess Get Category By Id", res))
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Supcess Get Payment By Id", res))
 	}
 }
 
@@ -107,7 +107,7 @@ func (ac *PaymentController) UpdateById() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
 		}
 
-		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Update User", res))
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Update Payment", res))
 	}
 }
 
@@ -128,6 +128,6 @@ func (ac *PaymentController) DeleteById() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, common.InternalServerError(http.StatusInternalServerError, "There is some error on server", nil))
 		}
 
-		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Delete User", res))
+		return c.JSON(http.StatusOK, common.Success(http.StatusOK, "Success Delete Payment", res))
 	}
 }

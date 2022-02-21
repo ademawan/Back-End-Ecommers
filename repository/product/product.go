@@ -18,6 +18,7 @@ func New(db *gorm.DB) *ProductRepository {
 }
 
 func (cr *ProductRepository) Create(newProduct entities.Product) (entities.Product, error) {
+
 	if err := cr.db.Create(&newProduct).Error; err != nil {
 		return newProduct, err
 	}
@@ -38,7 +39,7 @@ func (cr *ProductRepository) GetById(productId int) (entities.Product, error) {
 
 func (cr *ProductRepository) Update(productId int, newProduct entities.Product) (entities.Product, error) {
 
-	res := cr.db.Model(&entities.Product{Model: gorm.Model{ID: uint(productId)}}).Updates(entities.Product{Name: newProduct.Name})
+	res := cr.db.Model(entities.Product{}).Where("ID = ?", productId).Updates(newProduct)
 	if res.RowsAffected == 0 {
 		return entities.Product{}, errors.New(gorm.ErrRecordNotFound.Error())
 	}

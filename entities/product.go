@@ -10,6 +10,7 @@ type Product struct {
 	Price       int
 	Qty         int
 	Description string
+	Img         string
 	Category_ID int
 	Category    Category `gorm:"column:category_id"`
 }
