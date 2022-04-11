@@ -106,7 +106,7 @@ func Dummy() {
 	// mockOrder1 := entities.Order{Payment_ID: 1}
 	// repoOrder.Create(1, mockOrder1)
 
-	//cart dummy
+	//cart dummy create
 	mockCart1 := entities.Cart{Product_ID: 1, Qty: 2}
 	repoCart.Create(2, mockCart1)
 	mockCart2 := entities.Cart{Product_ID: 2, Qty: 1}
